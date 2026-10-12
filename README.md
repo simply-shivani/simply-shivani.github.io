@@ -12,4 +12,6 @@ Open `index.html` directly, or serve this folder with `python3 -m http.server 80
 
 Career Paths is also available directly through `index.html#career`. Switching portfolio tabs retains the selected career branch. Older `#journey` and `#achievements` links fall back to About.
 
+Career Paths Home includes “Regular vs AP Course Comparison” directly after the program comparison. It covers Grade 9 English, mathematics and science, local course-code suffixes, assessment, pathway planning and family support. Subject comparisons expand individually; enrichment examples must be confirmed with the school.
+
 The public profile uses generalized activity venues and academic tiles showing subject strengths and scores. Career Paths uses general examples rather than a personal school plan. It is an unofficial planning guide: confirm current requirements with your school and intended postsecondary programs. The visible “Last updated” date records the latest content edit, not a verification date for every policy, fee or deadline.

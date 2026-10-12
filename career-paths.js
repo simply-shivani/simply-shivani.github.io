@@ -150,6 +150,91 @@ function programs(){
  R.forEach(function(r){t+='<tr><td><b>'+r[0]+'</b></td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td><td>'+r[5]+'</td><td>'+r[6]+'</td></tr>'});
  return t+'</table></div><p class="note">Keep required courses and strong marks central to the plan. Confirm current entry requirements, application deadlines and subject options with the school and board.</p></div>';
 }
+function courseComparison(){
+ function table(label, headings, rows){
+  return '<div class="comparison-table-scroll" role="region" aria-label="'+label+'" tabindex="0"><table class="tb"><caption>'+label+'</caption><thead><tr>'+headings.map(function(x){return '<th scope="col">'+x+'</th>'}).join('')+'</tr></thead><tbody>'+rows.map(function(row){return '<tr><th scope="row">'+row[0]+'</th>'+row.slice(1).map(function(x){return '<td>'+x+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table></div>';
+ }
+ function subject(title, curriculum, rows, source){
+  return '<details class="course-comparison-details"><summary>'+title+'</summary><p><b>Shared provincial curriculum:</b> '+curriculum+'</p>'+table(title+' — learning and possible extensions',['Area','Regular course: shared expectations','Possible enrichment: confirm with the school'],rows)+'<p class="note">Reference: '+source+'. Texts, unit order, assignments and enrichment topics are chosen locally.</p></details>';
+ }
+ var englishSource='<a href="https://assets-us-01.kc-usercontent.com/fbd574c4-da36-0066-a0c5-849ffb2de96e/e36234b1-2df6-4536-8cf5-587bcea66319/Expectations_Grade%209_English.pdf" target="_blank" rel="noopener">Ontario Grade 9 English expectations (2023)</a>';
+ var mathSource='<a href="https://assets-us-01.kc-usercontent.com/fbd574c4-da36-0066-a0c5-849ffb2de96e/2c41223a-5f39-4dd2-b94c-c75d2fae1fbd/Math_9_strand%20chart_AODA_06-May-21.pdf" target="_blank" rel="noopener">Ontario Grade 9 mathematics expectations (2021)</a>';
+ var scienceSource='<a href="https://assets-us-01.kc-usercontent.com/fbd574c4-da36-0066-a0c5-849ffb2de96e/a393c5f1-4619-4c34-877a-c22321d01e18/The%20Ontario%20Curriculum%20-%20Science_Grade%209_De-streamed%20Course_2022.pdf" target="_blank" rel="noopener">Ontario Grade 9 science curriculum (2022)</a>';
+ var h='<div class="card"><h2>Regular vs AP Course Comparison</h2><div class="course-comparison">'+
+ '<p>This Grade 9 comparison covers <b>regular de-streamed courses</b> and <b>locally enriched / AP-preparation versions</b>. AP Prep builds toward later study; it is different from a College Board AP course and exam.</p>'+
+ '<p><b>Read the first five characters:</b> <code>ENL1W</code>, <code>MTH1W</code> and <code>SNC1W</code> are provincial codes. A sixth character, such as the <code>3</code> in <code>ENL1W3</code>, is a local identifier. It may designate AP Prep where the school defines it that way; <b>3 is not a province-wide AP designation</b>.</p>'+
+ table('Grade 9 course-code examples',['Subject','Provincial course','Local example to verify'],[
+ ['English','<code>ENL1W</code> — Grade 9 de-streamed English','<code>ENL1W3</code> — check the school’s course description'],
+ ['Mathematics','<code>MTH1W</code> — Grade 9 de-streamed mathematics','<code>MTH1W3</code> — check the school’s course description'],
+ ['Science','<code>SNC1W</code> — Grade 9 de-streamed science','<code>SNC1W3</code> — check the school’s course description']
+ ])+
+ '<h3 class="comparison-heading">What stays the same, and what may change?</h3>'+
+ table('Course design at a glance',['Feature','Regular de-streamed','Enriched / AP Prep, where offered'],[
+ ['Curriculum and credit','Ontario curriculum expectations and the credit attached to the provincial course.','The same underlying Ontario course requirements, with locally planned enrichment.'],
+ ['Pacing and depth','Instruction, practice, inquiry and review to meet Grade 9 expectations. Pace varies by class.','May include a quicker pace, longer investigations or more extension work. Ask for an actual course outline.'],
+ ['Texts and tasks','Analysis, research, problem-solving and independent work are part of regular courses too.','May add more challenging texts, open-ended problems, extended projects or timed practice.'],
+ ['Support','Feedback, accommodations and appropriate learning supports.','Students still need feedback, accommodations and appropriate supports; enrichment does not remove them.'],
+ ['Later pathways','Preparation for subsequent Ontario courses, subject to prerequisites.','Preparation for subsequent Ontario courses and possibly a school’s AP pathway; admission and sequencing rules vary.']
+ ])+
+ '<p class="note">The extensions below are <b>illustrative possibilities, not verified syllabi for a particular school</b>. Regular courses are not limited to simple tasks, and enriched courses do not necessarily assign more homework.</p>'+
+ '<h3 class="comparison-heading">Explore the subjects</h3>';
+ h+=subject('English: ENL1W vs a locally enriched version',
+ 'Literacy Connections and Applications; Foundations of Language; Comprehension: Understanding and Responding to Texts; and Composition: Expressing Ideas and Creating Texts.',[
+ ['Literature and reading','Interpret diverse texts, themes, perspectives and stylistic choices.','Extended novel studies, closer stylistic analysis or comparison of multiple texts.'],
+ ['Writing','Plan, research, draft, revise and edit texts for different audiences and purposes.','Longer analytical or synthesis essays, more independent research, or timed writing practice.'],
+ ['Media and rhetoric','Evaluate sources, bias and messages in digital and other media.','Closer analysis of speeches, editorials and persuasive strategies such as ethos, pathos and logos.'],
+ ['Drama and poetry','Work with the text forms selected by the teacher. A specific Shakespeare play is not guaranteed.','If drama is selected: closer study of poetic metre, dramatic irony, motifs and soliloquies.'],
+ ['Language and communication','Develop vocabulary, conventions, oral communication and effective expression.','Additional attention to rhetorical style, precise argument and discussion of complex ideas.']
+ ],englishSource);
+ h+=subject('Mathematics: MTH1W vs a locally enriched version',
+ 'Mathematical Thinking and Making Connections; Number; Algebra; Data; Geometry and Measurement; and Financial Literacy. Social-Emotional Learning Skills are included in instruction, not assessment or reporting. Coding and mathematical modelling are already part of the regular curriculum.',[
+ ['Algebra and relationships','Work with numbers, expressions, equations and linear/non-linear relationships.','More demanding multi-step problems or extensions toward later functions and quadratic work.'],
+ ['Problem-solving','Reason, model situations and explain solutions.','Non-routine or contest-style problems, with multiple solution strategies.'],
+ ['Coding and technology','Use coding to represent and solve mathematical problems.','More involved algorithms, simulations or investigation of alternative approaches.'],
+ ['Data and modelling','Analyse data and use models to investigate questions.','Larger investigations, more independent assumptions or comparison of competing models.'],
+ ['Geometry and financial literacy','Apply measurement, geometry and financial concepts.','Complex applications that connect several topics and require justification.']
+ ],mathSource);
+ h+=subject('Science: SNC1W vs a locally enriched version',
+ 'STEM Skills, Careers, and Connections; Biology (Sustainable Ecosystems and Climate Change); Chemistry (The Nature of Matter); Physics (Principles and Applications of Electricity); and Earth and Space Science (Space Exploration).',[
+ ['Biology','Investigate ecosystems, biodiversity and climate change.','Extended ecological investigations or connections to cellular processes, where the teacher includes them.'],
+ ['Chemistry','Study matter, atoms, elements and compounds.','Additional quantitative problems or an introduction to balancing equations and later chemistry concepts.'],
+ ['Physics','Investigate circuits, current, voltage, resistance and energy efficiency. Mathematical circuit relationships are already included.','More complex circuit models or optional extensions such as Kirchhoff’s laws.'],
+ ['Earth and space','Investigate the solar system, universe, Sun and impacts of space technologies.','Extended astronomical modelling, data interpretation or research on space technology.'],
+ ['STEM, labs and research','Use safe investigation, engineering design, coding and scientific communication.','More independent experiment design, quantitative analysis or detailed evaluation of uncertainty.']
+ ],scienceSource);
+ h+='<h3 class="comparison-heading">Assessment and marks</h3>'+
+ '<p>Ontario’s achievement levels apply to the underlying course: <b>Level 1: 50–59%</b>, <b>Level 2: 60–69%</b>, <b>Level 3: 70–79%</b> (provincial standard), and <b>Level 4: 80–100%</b>. A local AP Prep label does not create a different provincial grading scale or automatically require work beyond the curriculum to earn Level 4.</p>'+
+ '<p>Enriched assignments may be more demanding, but evaluation of the Ontario credit is based on curriculum expectations and achievement criteria. Ask the teacher how extension work, timed tasks and assessments contribute to the mark. A later AP exam score is separate from an Ontario course mark.</p>'+
+ '<p class="note">Reference: <a href="https://www.edu.gov.on.ca/eng/policyfunding/growSuccess.pdf" target="_blank" rel="noopener">Ontario Growing Success assessment policy</a>.</p>'+
+ '<h3 class="comparison-heading">Choosing a course that fits</h3>'+
+ '<p>Compare each subject separately. Both pathways can suit curious, motivated students. The decision depends on the actual course, foundations, interests, workload and available support.</p>'+
+ table('Readiness and workload questions',['Consideration','Reasons to consider regular study','Reasons to consider enrichment'],[
+ ['Pace and foundations','More practice or consolidation would help; a steadier pace fits current needs.','Core skills feel secure and the student wants additional depth or challenge.'],
+ ['Interests','The standard course supports the student’s goals and leaves space for other interests.','The student enjoys extended reading, investigation or non-routine problems in this subject.'],
+ ['Work habits','Build planning and independent-study habits with appropriate support.','The student is ready to manage longer tasks and ask for help when needed.'],
+ ['Workload and well-being','A manageable timetable alongside other commitments is the priority.','Additional challenge fits the student’s time, rest and support arrangements.']
+ ])+
+ '<p><b>Subject choice and switching:</b> some schools allow a mix of regular and enriched subjects; others require a course block. Ask about entry to <code>ENG2D</code>, <code>MPM2D</code> and <code>SNC2D</code>, locally designated AP Prep versions, and later AP courses. Codes such as <code>ENG2D3</code> or <code>MCV4U3</code> must also be checked locally. Moving into or out of AP Prep is not automatically guaranteed, and an AP Prep course does not guarantee IB entry or university admission.</p>'+
+ '<details class="course-comparison-details"><summary>How families can support learning</summary><ul class="pl">'+
+ '<li><b>Plan together:</b> use a calendar, break projects into smaller steps and review upcoming deadlines.</li>'+
+ '<li><b>Support problem-solving:</b> ask the student to explain the approach and use feedback to identify gaps. Try a short focused attempt before asking for help, without imposing a fixed waiting time.</li>'+
+ '<li><b>Protect balance:</b> make room for sleep, breaks and other interests. A drop in marks is a signal to discuss support and workload, not an inevitable feature of enrichment.</li>'+
+ '<li><b>Encourage teacher contact:</b> help the student prepare specific questions and use extra-help opportunities.</li></ul></details>'+
+ '<details class="course-comparison-details"><summary>Free resources and tutoring options</summary><ul class="pl">'+
+ '<li><b>Start at school:</b> ask about teacher extra help, peer tutoring, learning supports and board resources.</li>'+
+ '<li><a href="https://mathify.tvolearn.com/" target="_blank" rel="noopener">TVO Learn Mathify</a>: free online one-to-one math tutoring with Ontario Certified Teachers for Ontario students in Grades 4–12. Check current eligibility and session availability.</li>'+
+ '<li><a href="https://www.khanacademy.org/" target="_blank" rel="noopener">Khan Academy</a>: free lessons and practice, including selected AP subjects. Match the material to the student’s course outline; Grade 9 AP Prep is not the full senior AP syllabus.</li>'+
+ '<li><a href="https://apstudents.collegeboard.org/ap-exams-what-to-know/practice-for-exams" target="_blank" rel="noopener">College Board AP practice resources</a>: exam questions and scoring materials for later AP study. AP Classroom access and assigned activities depend on the course/exam section and teacher or coordinator.</li>'+
+ '<li><b>Paid support:</b> ask tutors about Ontario curriculum knowledge, relevant enrichment experience, teaching approach, accessibility and cost. Request support for reasoning and independent learning. <a href="https://collegeprep.uworld.com/ap/" target="_blank" rel="noopener">UWorld AP</a> is an optional paid practice platform for later AP exam preparation; check current subjects and prices before subscribing.</li></ul></details>'+
+ '<h3 class="comparison-heading">Questions to ask before choosing</h3><ul class="pl">'+
+ '<li>What does the local suffix mean, and what is the underlying Ontario credit?</li>'+
+ '<li>Which texts, units, assignments and enrichment topics are actually taught?</li>'+
+ '<li>How do pacing, homework, assessment and support compare with the regular course?</li>'+
+ '<li>Can subjects be mixed, and what are the rules for changing pathways later?</li>'+
+ '<li>Which Grade 10 and senior courses require earlier preparation or program admission?</li></ul>'+
+ '<p class="note">Choose a sustainable level of challenge and review the fit with the student and Guidance. Curriculum and resource references reviewed 11 October 2026; confirm local codes, syllabi and pathway rules with the school.</p></div></div>';
+ return h;
+}
 function types(){
  var Y='<span class="ok">\u2713</span>',N='<span class="no">\u2717</span>';
  var R=[
@@ -355,8 +440,8 @@ function map(){
   h+='<g class="node" data-i="'+i+'" tabindex="0"><rect x="470" y="'+y+'" width="340" height="52" rx="10" fill="'+c.c+'"/><text x="486" y="'+(y+22)+'" style="fill:#fff;font-weight:700;font-size:15px">'+c.n+'</text><text x="486" y="'+(y+40)+'" style="fill:#fff;opacity:.9;font-size:12px">'+c.sub+'</text></g>';
  });
  h+='</svg><p class="note">Select a branch to see routes, licences and the courses to take each year.</p></div>';
- var order=['Graduation checklist','How to read a course code','Course types compared','Regular vs Enhanced','Why the target scores','Why not take 4M','Using outside credits','How credits work','Co-op: what','Getting into top universities','U of T admissions notes'];
- var mk='<div class="card"><h2>',parts=(tips()+outside()+programs()+guide()+uoft()+legend()+types()+topu()).split(mk).slice(1);
+ var order=['Graduation checklist','How to read a course code','Course types compared','Regular vs Enhanced','Regular vs AP Course Comparison','Why the target scores','Why not take 4M','Using outside credits','How credits work','Co-op: what','Getting into top universities','U of T admissions notes'];
+ var mk='<div class="card"><h2>',parts=(tips()+outside()+programs()+courseComparison()+guide()+uoft()+legend()+types()+topu()).split(mk).slice(1);
  function rank(x){for(var i=0;i<order.length;i++)if(x.indexOf(order[i])===0)return i;return order.length}
  parts=parts.map(function(x,i){return{x:x,i:i,r:rank(x)}}).sort(function(a,b){return a.r-b.r||a.i-b.i});
  return h+parts.map(function(o){return mk+o.x}).join('')+ssn();

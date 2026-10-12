@@ -102,6 +102,19 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .career-guide .diagram-scroll { overflow-x: auto; margin-bottom: 8px; }
 .career-guide .diagram-scroll svg { min-width: 620px; }
 .career-guide .node:focus-visible rect { stroke: var(--ink); stroke-width: 3px; }
+.career-guide .course-comparison > p { margin: 0 0 14px; }
+.career-guide .comparison-heading { font-size: 18px; margin: 24px 0 10px; }
+.career-guide .comparison-table-scroll { overflow-x: auto; margin: 16px 0; border-radius: 8px; }
+.career-guide .comparison-table-scroll .tb { min-width: 660px; }
+.career-guide .comparison-table-scroll caption { text-align: left; font-weight: 600; padding: 0 0 10px; }
+.career-guide .comparison-table-scroll tbody th { width: 21%; background: var(--card); }
+.career-guide .course-comparison-details { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin: 12px 0; }
+.career-guide .course-comparison-details summary { cursor: pointer; font-weight: 600; min-height: 28px; }
+.career-guide .course-comparison-details[open] summary { margin-bottom: 14px; }
+.career-guide .course-comparison-details p { margin: 0 0 12px; }
+.career-guide .course-comparison code { white-space: nowrap; }
+.career-guide .course-comparison summary:focus-visible,
+.career-guide .comparison-table-scroll:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
 
 @media (max-width: 600px) {
   .header-inner { padding-inline: 20px; gap: 22px; }
