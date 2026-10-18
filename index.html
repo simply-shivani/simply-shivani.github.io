@@ -3,14 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Meet Shivani K. and explore her activities, achievements and a general Ontario career and course planning guide.">
-<title>Shivani K. | Portfolio &amp; Career Paths</title>
+<meta name="description" content="Meet Shivani K. and explore her activities, achievements a general Ontario career and course planning guide, and Peel high school guides for PDSB and DPCDSB.">
+<title>Shivani K. | Portfolio, Career Paths &amp; High School Guides</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&amp;family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <script src="portfolio.js" defer></script>
 <script src="career-paths.js" defer></script>
+<script src="school-guides.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -27,6 +28,8 @@
 <div class="portfolio-tabs" role="tablist" aria-label="Portfolio sections">
 <button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="true" tabindex="0" data-section="about">About</button>
 <button type="button" role="tab" id="tab-career" aria-controls="panel-career" aria-selected="false" tabindex="-1" data-section="career">Career Paths</button>
+<button type="button" role="tab" id="tab-pdsb" aria-controls="panel-pdsb" aria-selected="false" tabindex="-1" data-section="pdsb">PDSB Schools</button>
+<button type="button" role="tab" id="tab-dpcdsb" aria-controls="panel-dpcdsb" aria-selected="false" tabindex="-1" data-section="dpcdsb">DPCDSB Schools</button>
 </div>
 </div>
 </header>
@@ -238,6 +241,12 @@
 <div class="tabs" role="tablist" aria-label="Career branches" id="tabs"></div>
 <div id="view" role="tabpanel" tabindex="0"></div>
 </section>
+</div>
+<div id="panel-pdsb" class="portfolio-panel" role="tabpanel" aria-labelledby="tab-pdsb" tabindex="0" hidden>
+<section id="guide-pdsb" class="school-guide" aria-label="PDSB high school guide"></section>
+</div>
+<div id="panel-dpcdsb" class="portfolio-panel" role="tabpanel" aria-labelledby="tab-dpcdsb" tabindex="0" hidden>
+<section id="guide-dpcdsb" class="school-guide" aria-label="DPCDSB high school guide"></section>
 </div>
 <noscript><p>This site's tabs and interactive career guide need JavaScript. Enable JavaScript to explore all sections.</p></noscript>
 </main>

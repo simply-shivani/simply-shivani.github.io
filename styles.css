@@ -116,7 +116,54 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .career-guide .course-comparison summary:focus-visible,
 .career-guide .comparison-table-scroll:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
 
+/* PDSB and DPCDSB school guides reuse the career guide's type and cards. */
+.school-guide { font-size: 16px; line-height: 1.6; min-width: 0; }
+.school-guide .career-title { margin: 0 0 10px; font: 400 clamp(28px, 4.5vw, 36px)/1.15 'Young Serif', Georgia, serif; }
+.school-guide .sub { max-width: 780px; margin: 0 0 16px; color: var(--mute); }
+.school-guide .note { font-size: 14px; line-height: 1.6; color: var(--mute); margin: 10px 0; max-width: 780px; }
+.school-guide h3 { margin: 0 0 8px; font: 400 24px/1.3 'Young Serif', Georgia, serif; }
+.school-guide h4 { margin: 0 0 6px; font-size: 16px; line-height: 1.4; }
+.sg-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0; position: sticky; top: 0; background: var(--bg); z-index: 5; }
+.sg-tabs button { flex: none; border: 1px solid var(--line); background: var(--card); color: var(--ink); padding: 9px 16px; min-height: 44px; border-radius: 999px; font: 600 14px inherit; cursor: pointer; white-space: nowrap; }
+.sg-tabs button[aria-selected=true] { background: #0f3d3e; color: #fff; border-color: transparent; }
+.sg-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 24px; margin-top: 16px; }
+.sg-controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; margin: 12px 0; }
+.sg-field { display: flex; flex-direction: column; gap: 4px; font-size: 14px; font-weight: 600; margin: 12px 0; min-width: min(280px, 100%); }
+.sg-controls .sg-field { margin: 0; }
+.sg-in { font: 400 16px inherit; min-height: 44px; padding: 8px 12px; border: 1px solid #7d908a; border-radius: 8px; background: #fff; color: var(--ink); max-width: 100%; }
+.sg-check { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; }
+.sg-check input { width: 22px; height: 22px; accent-color: #0f3d3e; }
+.sg-scroll { overflow-x: auto; margin: 12px 0; border-radius: 8px; }
+.sg-table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 15px; }
+.sg-table th, .sg-table td { border-bottom: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: middle; }
+.sg-table thead th { background: var(--chip); position: sticky; top: 0; }
+.sg-bar { display: inline-block; width: 72px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, #0f3d3e var(--v), var(--line) var(--v)); vertical-align: middle; }
+.sg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 16px; margin-top: 16px; }
+.school-guide .g { background: var(--chip); border-radius: 10px; padding: 16px; min-width: 0; }
+.school-guide .code { display: inline-block; background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 1px 8px; margin: 2px 4px 2px 0; font-size: 13px; }
+.school-guide .sl { font-size: 13px; font-weight: 600; color: var(--mute); margin: 10px 0 2px; }
+.sg-hit { background: #fdecc8 !important; border-color: #9a5b00 !important; font-weight: 600; }
+.sg-chips { margin: 4px 0 0; }
+.sg-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; margin: 0 0 6px; font-size: 14px; color: var(--mute); }
+.sg-pill { background: #0f3d3e; color: #fff; border-radius: 999px; padding: 1px 10px; font-size: 13px; font-weight: 600; }
+.sg-top { margin: 8px 0 0; padding-left: 22px; }
+.sg-top li { margin: 0 0 12px; }
+.sg-ev { display: flex; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+.sg-ev .pl { margin: 6px 0 0; }
+.sg-date { flex: none; width: 56px; text-align: center; background: #0f3d3e; color: #f4f6f2; border-radius: 10px; padding: 6px 0; align-self: flex-start; }
+.sg-date b { display: block; font-size: 13px; font-weight: 600; }
+.sg-date span { font: 400 26px/1.1 'Young Serif', Georgia, serif; color: #e0902b; }
+.sg-st { display: inline-block; margin-left: 6px; padding: 0 8px; border-radius: 999px; background: var(--chip); border: 1px solid var(--line); color: var(--mute); font-size: 13px; font-weight: 600; }
+.sg-now { background: #e0902b; border-color: #e0902b; color: #12302f; }
+.sg-past .sg-date { background: var(--line); color: var(--mute); }
+.sg-past .sg-date span { color: var(--mute); }
+.sg-past h4 a { color: var(--mute); }
+.school-guide ol li::marker { font-weight: 700; color: #0f3d3e; }
+.sg-scroll:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+
 @media (max-width: 600px) {
+  .sg-card { padding: 18px; }
+  .sg-ev { gap: 12px; }
   .header-inner { padding-inline: 20px; gap: 22px; }
   .social-links { gap: 8px 16px; font-size: 14px; }
   .hero h1 { overflow-wrap: anywhere; }
