@@ -159,6 +159,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .sg-past .sg-date span { color: var(--mute); }
 .sg-past h4 a { color: var(--mute); }
 .school-guide ol li::marker { font-weight: 700; color: #0f3d3e; }
+.sg-tall { max-height: 70vh; overflow-y: auto; }
+.sg-peel th, .sg-peel td { background: #fdf6e6; }
 .sg-scroll:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
 
 @media (max-width: 600px) {

@@ -1,6 +1,6 @@
 # Shivani K. — Portfolio & Career Paths
 
-The home page has four tabs. About combines Shivani's story, academics, activities and achievements in one place. Career Paths contains a general interactive Ontario career planning guide, including all eight career branches, courses, routes, licensing, supplemental applications, graduation guidance and outside-credit guidance. All site files are contained in this folder.
+The home page has five tabs. About combines Shivani's story, academics, activities and achievements in one place. Career Paths contains a general interactive Ontario career planning guide, including all eight career branches, courses, routes, licensing, supplemental applications, graduation guidance and outside-credit guidance. All site files are contained in this folder.
 
 Open `index.html` directly, or serve this folder with `python3 -m http.server 8000` and visit `http://localhost:8000`. The site uses plain HTML, CSS and JavaScript and can be hosted directly on GitHub Pages.
 
@@ -8,6 +8,7 @@ Open `index.html` directly, or serve this folder with `python3 -m http.server 80
 - The About story uses a “Shivani K” name card in place of a portrait.
 - `styles.css`: portfolio styling and scoped career guide styling.
 - `school-guides.js`: data and rendering for the **PDSB Schools** and **DPCDSB Schools** tabs (rankings, special programs, open house dates, best schools by career area). Edit the `PDSB`, `PDSB_EV`, `DP` and `DP_EV` lists at the top to update schools or dates; dates are compared with the visitor's current day to mark sessions Upcoming or Past.
+- `ontario-rankings.js`: the **Ontario Rankings** tab, listing all 747 schools from the Fraser Institute 2025 report (`index.html#ontario`). Peel schools are tagged `~P` (PDSB) or `~D` (DPCDSB) in the data.
 - `portfolio.js`: portfolio navigation, keyboard support and section URL hashes.
 - `career-paths.js`: general career guide data and content, with tab and diagram accessibility improvements.
 
