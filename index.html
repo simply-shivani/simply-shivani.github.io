@@ -14,7 +14,6 @@
 <script src="school-guides.js" defer></script>
 <script src="ontario-rankings.js" defer></script>
 <script src="university-rankings.js" defer></script>
-<script src="program-paths.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -30,12 +29,11 @@
 </div>
 <div class="portfolio-tabs" role="tablist" aria-label="Portfolio sections">
 <button type="button" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="true" tabindex="0" data-section="about">About</button>
-<button type="button" role="tab" id="tab-career" aria-controls="panel-career" aria-selected="false" tabindex="-1" data-section="career">Career Paths</button>
+<button type="button" role="tab" id="tab-career" aria-controls="panel-career" aria-selected="false" tabindex="-1" data-section="career">Career &amp; Programs</button>
 <button type="button" role="tab" id="tab-pdsb" aria-controls="panel-pdsb" aria-selected="false" tabindex="-1" data-section="pdsb">PDSB Schools</button>
 <button type="button" role="tab" id="tab-dpcdsb" aria-controls="panel-dpcdsb" aria-selected="false" tabindex="-1" data-section="dpcdsb">DPCDSB Schools</button>
 <button type="button" role="tab" id="tab-ontario" aria-controls="panel-ontario" aria-selected="false" tabindex="-1" data-section="ontario">Ontario Rankings</button>
 <button type="button" role="tab" id="tab-universities" aria-controls="panel-universities" aria-selected="false" tabindex="-1" data-section="universities">University Rankings</button>
-<button type="button" role="tab" id="tab-programs" aria-controls="panel-programs" aria-selected="false" tabindex="-1" data-section="programs">Program Paths</button>
 </div>
 </div>
 </header>
@@ -238,12 +236,12 @@
 </section>
 </div>
 <div id="panel-career" class="portfolio-panel" role="tabpanel" aria-labelledby="tab-career" tabindex="0" hidden>
-<section class="career-guide" aria-label="Career planning guide">
+<section class="career-guide pg-guide" aria-label="Career and university program planning guide">
 
-<h2 class="career-title">Career Paths in Canada</h2>
-<p class="sub">Pick a branch to see the careers, the university or college route, the licences, and the Ontario high school courses that get you there.</p>
-<p class="note">Unofficial planning guide. Course codes and diploma guidance are for Ontario. Confirm current requirements, course availability and timetable options with your school, and admission prerequisites with each university or college.</p>
-<p class="note">Last updated: <time datetime="2026-10-11">11 October 2026</time>.</p>
+<h2 class="career-title">Career &amp; Program Pathways in Canada</h2>
+<p class="sub">Pick a branch, then a career, then a university program to see the route, the licences, what you would study, what happens after postgrad or if you stop after your degree, and the Ontario high school courses that get you there.</p>
+<p class="note">Unofficial planning guide. Course codes and diploma guidance are for Ontario. Confirm current requirements, course availability and timetable options with your school, and admission prerequisites, averages and co-op options with each university or college.</p>
+<p class="note">Last updated: <time datetime="2026-10-19">19 October 2026</time>.</p>
 <div class="tabs" role="tablist" aria-label="Career branches" id="tabs"></div>
 <div id="view" role="tabpanel" tabindex="0"></div>
 </section>
@@ -259,9 +257,6 @@
 </div>
 <div id="panel-universities" class="portfolio-panel" role="tabpanel" aria-labelledby="tab-universities" tabindex="0" hidden>
 <section id="guide-universities" class="school-guide" aria-label="University rankings and application timeline"></section>
-</div>
-<div id="panel-programs" class="portfolio-panel" role="tabpanel" aria-labelledby="tab-programs" tabindex="0" hidden>
-<section id="guide-programs" class="career-guide pg-guide" aria-label="University programs for each career"></section>
 </div>
 <noscript><p>This site's tabs and interactive career guide need JavaScript. Enable JavaScript to explore all sections.</p></noscript>
 </main>

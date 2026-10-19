@@ -1,4 +1,4 @@
-// General Ontario career and course planning guide.
+// Career & Programs guide: Ontario career and course planning plus the university program level (Branch > Career > Program).
 (function () {
 "use strict";
 
@@ -80,12 +80,185 @@ car:[
 {n:"Video / Content Producer",r:[["College or degree","Media Production or Digital Media","2-4 yrs"],["Portfolio","Reel and published work","Ongoing"]]}]}
 ];
 var K={PPL1O:"Healthy Active Living (Phys Ed)",PPL2O:"Healthy Active Living (Phys Ed)",PPL3O:"Healthy Active Living (Phys Ed)",PPL4O:"Healthy Active Living (Phys Ed)",ADA1O:"Drama",ADA2O:"Drama",ADA3M:"Drama",ADA4M:"Drama",AMI2O:"Music (Instrumental, Band)",AMI3M:"Music (Instrumental, Band)",AMI4M:"Music (Instrumental, Band)",AVI2O:"Visual Arts",AVI3M:"Visual Arts",TEJ3M:"Computer Engineering Technology",TEJ4M:"Computer Engineering Technology",TDJ3M:"Technological Design",HPC3O:"Raising Healthy Children",BAT4M:"Financial Accounting Principles",ENL1W:"English",ENG2D:"English",NBE3U:"English (First Nations, Métis & Inuit Voices)",ENG4U:"English",MTH1W:"Mathematics",MPM2D:"Principles of Math",MCR3U:"Functions",MCF3M:"Functions & Applications",MHF4U:"Advanced Functions",MCV4U:"Calculus & Vectors",MDM4U:"Data Management (Statistics)",SNC1W:"Science",SNC2D:"Science",SBI3U:"Biology",SBI4U:"Biology",SCH3U:"Chemistry",SCH4U:"Chemistry",SPH3U:"Physics",SPH4U:"Physics",CGC1W:"Canadian Geography",CHC2D:"Canadian History",FSF1D:"Core French",GLC2O:"Career Studies",CHV2O:"Civics & Citizenship",PSK4U:"Introductory Kinesiology",TAS1O:"Technology and the Skilled Trades",TDJ2O:"Technological Design",BTA3O:"Information & Communication Tech (Digital Environment)",ICD2O:"Digital Technology & Innovations",ICS3U:"Computer Science",ICS4U:"Computer Science",BEP2O:"Launching and Leading a Business",BAF3M:"Financial Accounting Fundamentals",BMI3C:"Marketing",CIE3M:"Economics (Individual & Economy)",CIA4U:"Analysing Current Economic Issues",BOH4M:"Business Leadership",BBB4M:"International Business",CLU3M:"Understanding Canadian Law",CHW3M:"World History to the End of the 15th Century",CLN4U:"Canadian & International Law",CPW4U:"Canadian & World Politics",CHY4U:"World History Since the 15th Century",HHG4M:"Human Development Throughout the Lifespan",CGW4U:"World Issues: A Geographic Analysis",PLF4M:"Recreation & Healthy Active Living Leadership",HSP3U:"Intro to Anthropology, Psychology & Sociology",HHS4U:"Families in Canada",AVI1O:"Visual Arts",TGJ2O:"Communications Technology",TGV3M:"Comms Tech: TV, Video & Movie Production",TGV4M:"Comms Tech: Film Studies",AWT3M:"Visual Arts: Media Arts",AWT4M:"Visual Arts: Media Arts",AWE4M:"Visual Arts: Information/Consumer Design (Yearbook)",EWC4U:"The Writer\'s Craft"};
-var tabs=document.getElementById("tabs"),view=document.getElementById("view"),cur=-1;
+var PD=(function(){
+const B = [
+    ["health", "Health & Medicine", "#c0392b", "Family Physician=lifesci,healthsci,kin,bio,biomed,neuro;Registered Nurse=bscn;Pharmacist=lifesci,biochem,healthsci;Dentist=lifesci,biomed,biochem;Physiotherapist / OT=kin,healthsci,lifesci;Kinesiologist=kin"],
+    ["eng", "Engineering", "#d68910", "Civil Engineer=civil;Mechanical Engineer=mech;Electrical / Computer Eng.=ece;Chemical Engineer=cheme;Engineering Technologist=engtech"],
+    ["cs", "Computer Science & IT", "#2471a3", "Software Developer=cs,bmath;Data Scientist / AI Eng.=cs,stats,bmath;Cloud / DevOps Engineer=cs,it;Cybersecurity Analyst=cs,it;Business / Systems Analyst=mis,it"],
+    ["biz", "Business & Finance", "#1e8449", "Chartered Accountant (CPA)=acct;Financial Analyst=fin,econ;Marketing Manager=mkt,bcom;HR Professional=hr,bcom;Project Manager=bcom,cs,civil;Actuary=actsci,bmath,stats"],
+    ["law", "Law, Justice & Public Service", "#5b3f8c", "Lawyer=polisci,lawsoc,econ;Paralegal=paralegal;Police Officer=crim,polfound;Border Services / Corrections=crim,polfound;Policy Analyst=polisci,pubpol,econ;Crime / Intelligence Analyst=crim,forensic"],
+    ["edu", "Education & Social Services", "#148f77", "Teacher (K-12)=conced,subjdeg;Early Childhood Educator=ecedip;Social Worker=bsw,soc,psych;Speech-Language Pathologist=ling,healthsci,psych;Child & Youth Worker=cyw"],
+    ["psy", "Psychology & Mental Health", "#a93a76", "Psychologist=psych;Psychotherapist / Counsellor=psych,bsw;Psychiatrist=lifesci,neuro,psych;Neuroscientist=neuro,lifesci,psych;Mental Health Worker=ssw,psych"],
+    ["media", "Communications & Media", "#c2410c", "Journalist=journ,comms;PR / Comms Specialist=comms,journ;Brand / Marketing Strategist=mkt,comms;Graphic / Digital Designer=design;Video / Content Producer=mediaprod"]
+  ].map(([id, n, c, s]) => ({ id, n, c, car: s.split(";").map(x => { const [name, ids] = x.split("="); return { n: name, p: ids.split(",") }; }) }));
+
+  const TIPS = {
+    "Family Physician": "Medical schools look mainly at grades, prerequisite courses, the MCAT and experience, not the degree name. Pick the program where you can earn the highest marks, and check each medical school’s prerequisites. BSc Life Sciences is lab-science focused and also fits dentistry, pharmacy and research. BHSc / BSc Health Sciences is broader (population health, policy, placements) and also fits physiotherapy, occupational therapy, speech-language pathology, nursing and public health.",
+    "Lawyer": "Law schools accept almost any major. Grades and the LSAT matter most, so choose a program you can do very well in.",
+    "Teacher (K-12)": "In Ontario you can earn the BEd alongside your degree (Concurrent Education) or finish a degree first and then complete a 2-year BEd.",
+    "Psychologist": "Registering as a psychologist requires graduate study beyond the bachelor’s. Check the College of Psychologists of Ontario for current requirements.",
+    "Project Manager": "Project managers come from many backgrounds. Choose a field you want to work in, then add experience and the PMP."
+  };
+
+  // id|name|what you study|postgrad|work after postgrad|if you stop after undergrad
+  const P = {};
+  `lifesci|BSc Life Sciences|Year 1 builds biology, chemistry, physics and math. Later you specialize in areas such as genetics, physiology or microbiology, with labs and often a research project.|Medicine, dentistry or pharmacy (competitive, using grades, an admission test and experience), MSc or PhD research degrees, or graduate certificates.|Physician, dentist or pharmacist after professional school; scientist or research lead after an MSc or PhD; clinical research, public health or biotech roles.|Common jobs are lab or research assistant, clinical trials coordinator, quality or regulatory assistant, and public health or biotech support. Many graduates add a college graduate certificate to move into a focused job.
+healthsci|BHSc / BSc Health Sciences|Human health from several angles: anatomy and physiology, population health, health policy, research methods and often community or clinical placements.|Medicine, physiotherapy, occupational therapy, speech-language pathology, after-degree nursing or public health; MSc or PhD in health research.|Physician, physiotherapist, occupational therapist, speech-language pathologist, public health officer or health researcher.|Health program coordinator, patient navigator, research assistant, public health support or health-services administration.
+kin|BKin / BSc Kinesiology|How the body moves: anatomy, exercise physiology, biomechanics, motor learning and the psychology of sport, with labs and sometimes placements.|Physiotherapy (MScPT), occupational therapy (MScOT), medicine, chiropractic, teaching (BEd) or an MSc or PhD in exercise science.|Physiotherapist, occupational therapist, chiropractor, physician, ergonomist or exercise scientist.|You can register as a kinesiologist with the College of Kinesiologists of Ontario and work in rehab, injury prevention or ergonomics. Other roles include strength and conditioning and fitness or rehab assistant.
+bio|BSc Biology|Cells, genetics, ecology, evolution and physiology, plus chemistry, statistics and lab or field courses. You can lean toward molecular, environmental or organismal biology.|MSc or PhD in biology or ecology, medical or dental school, veterinary medicine (after prerequisites), a teaching degree or environmental graduate programs.|Researcher, professor, physician, veterinarian, conservation scientist or environmental consultant.|Lab or field technician, environmental monitoring, conservation, government or consulting entry roles, and science sales or communications.
+biomed|BSc Biomedical Science|Human biology at the molecular level: biochemistry, anatomy, physiology, immunology and pharmacology, with lab techniques and often a thesis or research placement.|Medical, dental or pharmacy school, or an MSc or PhD in biomedical research.|Physician, biomedical scientist, clinical researcher or medical device and pharmaceutical specialist.|Research technician, pharmaceutical or medical-device roles, clinical trials and lab positions. A graduate certificate helps you move into regulatory or clinical research.
+neuro|BSc Neuroscience|Brain and behaviour: neuroanatomy, neurophysiology, cognition, psychology and chemistry, with lab methods and often a research project. Programs differ by university.|MSc or PhD in neuroscience, medicine (with later training in neurology or psychiatry), clinical psychology, or speech-language and rehab science.|Neuroscientist, physician, psychologist, or researcher in pharma and technology.|Research assistant or lab technician, clinical research coordinator, mental health support and science communication. Advancing in research usually needs a graduate degree.
+bscn|BScN Nursing|Nursing science, anatomy, pharmacology, health assessment and ethics, with many hours of clinical placements in hospitals and community settings.|Nurse practitioner or clinical specialist programs, or an MScN or PhD for leadership, teaching and research.|Registered nurse in hospitals, community care, public health or long-term care; with a master’s, nurse practitioner, educator, manager or researcher.|Most nurses stop here. After the NCLEX-RN and registration with the College of Nurses of Ontario you can work as an RN right away.
+biochem|BSc Biochemistry / Chemistry|The chemistry of living systems: organic and physical chemistry, enzymes, metabolism and lab methods, with strong math and physics.|Pharmacy (PharmD), medicine or dentistry, an MSc or PhD in chemistry or biochemistry, or a certificate in regulatory affairs.|Pharmacist, physician, research scientist, formulation or quality chemist.|Lab technician or analyst roles in pharma, food, cosmetics, environmental and government labs, plus quality-assurance and technical sales.
+civil|BEng / BASc Civil Engineering|Math, physics and mechanics, then structures, geotechnical, water resources, transportation and construction, with design projects and often co-op terms.|MASc or MEng in structures, geotechnical or transportation; an MBA or project management certificate; a PhD for research or teaching.|Structural, municipal or transportation engineer, project manager or consultant.|Most civil engineers stop here. You work as an engineer-in-training and earn the P.Eng licence through PEO after about four years of supervised experience.
+mech|BEng / BASc Mechanical Engineering|Mechanics, thermodynamics, materials, design, controls and manufacturing, with labs, design projects and co-op in many programs.|MASc or MEng in robotics, energy or materials; an MBA; a PhD for research and development.|Mechanical engineer in manufacturing, automotive, aerospace, energy or robotics; design, project or R&D lead.|Most mechanical engineers stop here. You work as an engineer-in-training and can earn the P.Eng after supervised experience, or take industry roles that do not need a licence.
+ece|BASc Electrical / Computer Engineering|Circuits, signals, programming, electromagnetics, embedded systems and power or computer hardware, with labs and design projects.|MASc or MEng in AI, communications, power or microelectronics; a PhD for research roles.|Hardware, embedded, power, telecom or software engineer, or technical lead.|Common roles are hardware, embedded, power-systems and software jobs. The P.Eng licence is optional in many industry roles.
+cheme|BEng / BASc Chemical Engineering|Chemistry, thermodynamics, fluid mechanics, reaction engineering and process design, with labs and often co-op in plants and processing firms.|MASc or MEng in materials, energy or biochemical engineering; an MBA; a PhD for research.|Process, environmental, energy or pharmaceutical engineer, or operations and technical manager.|Process or plant engineer in chemicals, energy, food, pharma or environmental firms, with the P.Eng after supervised experience.
+engtech|Engineering Technology (college advanced diploma)|A three-year college program with hands-on labs in electronics, mechanics or civil technology, plus math, drafting and projects. Co-op is common.|Not required. Some graduates bridge into a university engineering degree with credit.|Technologist or technician in manufacturing, utilities, construction, telecom or quality, then supervisor roles with experience.|This is already a complete route. You can earn the C.E.T. certification through OACETT.
+cs|BSc / BCS Computer Science|Programming, data structures, algorithms, systems and databases, plus math and electives such as AI, security or graphics. Co-op is common.|An MSc or MASc for AI and research roles, an MBA, or a PhD. Many software jobs do not need a graduate degree.|Software developer, machine learning engineer, security analyst, cloud architect or technical lead.|Most graduates start work right after the degree as developers, QA or data analysts and grow through experience.
+bmath|BMath / BSc Mathematics|Calculus, linear algebra, statistics, programming and discrete math. Some programs combine with computer science, finance or actuarial science.|MMath, MSc or PhD in math, statistics, CS or finance; actuarial exams for insurance careers.|Software developer, data scientist, actuary, quantitative analyst or researcher.|Software developer, data analyst, actuarial analyst, and finance or consulting analyst roles.
+stats|BSc Statistics / Data Science|Probability, regression, statistical computing, data analysis and machine learning basics, with projects on real data.|An MSc in statistics, data science or biostatistics; a PhD for research.|Data scientist, biostatistician, machine learning engineer or research analyst.|Data or business analyst, survey or health-data analyst, and research assistant roles.
+it|IT / Information Security (university or college)|Networks, operating systems, databases, cloud, security and software basics, with applied labs. Offered at both universities and colleges.|Graduate certificates in security or cloud, or an MSc or MEng. Vendor certifications such as Azure, AWS and Security+ matter in this field.|Cloud or DevOps engineer, security analyst, systems administrator or IT manager.|Entry roles such as help desk, network administrator or junior cloud and security analyst. Certifications and experience drive promotion.
+mis|BCom Management Information Systems|Business foundations plus programming, databases, systems analysis and project work, usually as a BCom specialization.|An MBA, a Master of Management or IT, or certifications such as the CBAP.|Business or systems analyst, product or project manager, IT consultant.|Business analyst, systems analyst and IT consulting entry roles.
+acct|BCom / BBA Accounting|Financial and managerial accounting, auditing, tax, finance and business law, with co-op in many programs.|The CPA professional program (CPA PREP), then the CFE exam and about 30 months of practical experience. A master’s in accounting is optional.|CPA in public accounting, corporate finance, audit, tax or consulting, with paths toward CFO roles.|The degree is the first step of the CPA route. You can work as an accounting clerk or junior analyst while completing it, but without the CPA the options are limited.
+fin|BCom Finance|Corporate finance, investments, financial markets, economics, accounting and statistics, sometimes with co-op.|CFA levels (optional), a Master of Finance or MBA.|Financial or investment analyst, banker, risk manager or financial planner.|Financial analyst, banking, insurance and fintech roles. The CFA and experience support promotion.
+mkt|BCom / BBA Marketing|Consumer behaviour, branding, market research, digital marketing and analytics, often with case competitions and co-op.|An MBA or Master of Marketing; certifications in digital marketing or analytics.|Marketing manager, brand strategist, digital or product marketer.|Marketing coordinator, digital or social media specialist, sales and account roles.
+hr|BCom / BBA Human Resources|Organizational behaviour, labour relations, recruiting, compensation, employment law and business basics.|The CPHR designation after work experience; an MBA or industrial relations master’s is optional.|HR generalist, recruiter, labour relations specialist or HR manager.|HR assistant, coordinator or recruiter. The CPHR is usually earned with work experience.
+bcom|BCom / BBA (general business)|Core business subjects such as accounting, finance, marketing, operations and management, then a specialization. Co-op is common.|An MBA (usually after a few years of work), professional designations such as CPA, CFA or PMP, or a specialized master’s.|Manager, consultant, analyst or project manager across many industries.|A wide range of entry roles, such as analyst, coordinator, sales or operations, depending on your specialization.
+econ|BA / BSc Economics|Micro and macroeconomics, statistics, econometrics and policy, with more math in the BSc stream.|An MA or PhD in economics, a public administration master’s, law school or an MBA.|Economist, policy analyst, financial analyst or data analyst.|Analyst roles in finance, government, consulting or research. Professional economist roles usually need a graduate degree.
+actsci|BSc Actuarial Science|Calculus, probability, statistics, financial mathematics, economics and risk theory, with programming. Exam preparation is built into many programs.|A graduate degree is not required. Professional exams (SOA or CAS) are the main next step and take several years.|Actuary in insurance, pensions, consulting or risk management.|You usually start as an actuarial analyst while writing exams, then advance as you pass them.
+polisci|BA Political Science|Political theory, Canadian and comparative politics, international relations and public policy, with heavy reading, writing and research methods.|Law school (LSAT, then JD), a public administration or policy master’s, or an MA or PhD.|Lawyer, policy analyst, diplomat, government advisor or journalist.|Government and political staff roles, non-profit and advocacy work, communications and research assistant jobs.
+lawsoc|BA Law & Society / Legal Studies|How law works in society: legal systems, courts, ethics and rights, with a lot of reading and writing.|Law school (LSAT, then JD), paralegal studies or a justice-related master’s.|Lawyer, court or legal officer, compliance or policy specialist.|Legal assistant or clerk, compliance, government and justice-sector roles. Becoming a lawyer requires law school.
+paralegal|Paralegal (college diploma)|A two-year program covering legal research, courts and procedure, tribunals and ethics, with a field placement.|Not required. Some graduates continue to a degree or law school.|Licensed paralegal in a firm, a tribunal or your own practice, within the scope the Law Society allows.|This is a complete route. You become licensed with the Law Society of Ontario after the program and its licensing exam.
+crim|BA Criminology|Theories of crime, criminal justice, courts, policing, corrections, research methods and statistics.|A graduate certificate or MA in criminology or intelligence analysis, law school, or police recruitment.|Crime or intelligence analyst, police officer, probation or parole officer, policy advisor.|Policing, corrections, victim services, border services and analyst roles. Police and border roles have their own testing and training.
+polfound|Police Foundations (college diploma)|A two-year program in policing, law, community safety and fitness, often with placements.|Not required. Many graduates later complete a degree.|Police officer, corrections officer, security or border services roles after recruitment and training.|Next steps are recruit testing (such as OACP) and Ontario Police College training, depending on the service.
+pubpol|BA Public Policy / Administration|Policy design, public administration, economics and political analysis, with research methods.|An MPA or MA (common) or law school.|Policy analyst, advisor or program manager in government and think tanks.|Junior policy and program roles. Many analysts later complete a master’s.
+forensic|BSc Forensic Science|Chemistry, biology, criminology and evidence analysis, with lab courses.|A graduate certificate, MSc or MA; law school; or police recruitment.|Forensic or intelligence analyst, crime scene or lab specialist.|Lab technician, analyst or investigative support roles.
+conced|Concurrent Education (degree + BEd)|Your subject degree plus education courses and classroom placements, all in one program.|A master’s in education or additional qualification courses are optional.|Teacher in elementary or secondary school, then department head or administrator.|Concurrent Education already includes the BEd, so you can apply to the Ontario College of Teachers right after graduating.
+subjdeg|BA / BSc in a teachable subject (then BEd)|A four-year degree in a subject you would teach, such as math, English or biology.|A two-year BEd (consecutive program), then an optional master’s.|Teacher, subject specialist or administrator.|Without the BEd you cannot teach in publicly funded schools, but you can work as an educational assistant, tutor or in education-related roles.
+ecedip|Early Childhood Education (college diploma)|Child development, curriculum, observation and many placement hours in childcare settings.|Not required. Some graduates finish a child studies or education degree.|Registered ECE in childcare, kindergarten teams and early years programs.|This is a complete route. You register with the College of ECE to use the RECE title.
+bsw|BSW Social Work|Social work theory, policy, ethics and human behaviour, with extensive field placements.|An MSW (1–2 years) for advanced and clinical practice, supervision and counselling.|Social worker, clinical therapist, hospital or school social worker, or program lead.|Many agency, child welfare and healthcare roles are open with a BSW. BA graduates usually need the MSW to register as social workers.
+soc|BA Sociology|Society, inequality, family, community and research methods and statistics.|An MSW, law school, a public policy master’s, or an MA or PhD.|Social worker (after an MSW), policy analyst or researcher.|Community, non-profit, government and research assistant roles.
+ling|BA / BSc Linguistics or Communication Sciences|Language structure, speech sounds, language development and communication disorders, and often the prerequisites for speech-language programs.|An MSc in speech-language pathology (very competitive), audiology or a research degree.|Speech-language pathologist, audiologist or language researcher.|Communicative disorders assistant, research assistant, language technology or ESL roles.
+cyw|Child & Youth Care (college diploma)|Child and youth development, mental health and behaviour support, with placements in schools, agencies and group homes.|Not required. Some graduates bridge into a social work or education degree.|Child and youth worker in schools, group homes, hospitals and community agencies.|This is a complete route for most front-line roles.
+psych|BA / BSc Psychology|Brain and behaviour, research methods, statistics, and areas such as clinical, developmental, social and cognitive psychology. The BSc stream has more science.|Master’s and doctoral study in clinical or counselling psychology (very competitive), an MSW or counselling master’s, or medical school for psychiatry.|Psychologist, psychotherapist, researcher, or school and clinical roles.|You cannot register as a psychologist with a bachelor’s alone. Roles include mental health support, case management, HR, research assistant and community services.
+ssw|Social Service Worker (college diploma)|A two-year program in counselling basics, mental health, addictions and community services, with placements.|Not required. Many graduates bridge into a psychology or social work degree.|Mental health, addictions, housing and community support worker.|This is a complete route, and many graduates register with the Ontario College of Social Workers and Social Service Workers.
+journ|BA Journalism|Reporting, writing, media law, ethics, interviewing and multimedia, with newsroom placements.|A Master of Journalism, a college graduate certificate or an MA in media studies.|Reporter, editor, producer, or digital content and communications lead.|Reporter, producer or writer roles. A portfolio of published work matters most.
+comms|BA Communications / Public Relations|Communication theory, writing, media, public relations and digital strategy.|A graduate certificate in PR or communications, the CPRS APR accreditation, or an MA or MBA.|PR or communications specialist, content manager or strategist.|Communications coordinator, social media and internal communications roles.
+design|BDes / Graphic Design|Visual design, typography, branding, user experience and digital media, built around a portfolio.|Rarely required. An MDes or MFA is optional.|Graphic, UX or brand designer, or art director.|This is a complete route. Your portfolio decides hiring.
+mediaprod|Media Production / Digital Media|Video production, editing, audio, storytelling and motion graphics.|An optional graduate certificate or MFA.|Producer, editor, content creator or director.|This is a complete route. A reel and published work decide hiring.`.split("\n").forEach(l => { const f = l.split("|"); P[f[0]] = { n: f[1], a: f[2], b: f[3], c: f[4], d: f[5] }; });
+
+  const SUB = { health: "MD, Nursing, Pharmacy, Rehab", eng: "Civil, Mechanical, Electrical, Chemical", cs: "Software, Data, Cloud, Security, AI", biz: "Accounting, Finance, Marketing, HR", law: "Lawyer, Police, Policy, Security", edu: "Teacher, ECE, Social Work, SLP", psy: "Psychologist, Therapist, Neuroscience", media: "Journalism, PR, Design, Content" };
+
+return {B:B,P:P,TIPS:TIPS,SUB:SUB};
+})();
+var tabs=document.getElementById("tabs"),view=document.getElementById("view"),cur=-1,curC=0,curP=0;
 function el(t,a,h){var e=document.createElement(t);for(var k in a||{})e.setAttribute(k,a[k]);if(h!=null)e.innerHTML=h;return e}
-function show(i,ci){
- cur=i;
+
+/* ---- Combined tab: adds the program level (Branch > Career > Program) to the career pages ---- */
+function pxEsc(s){return String(s).replace(/[&<>"']/g,function(ch){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]})}
+function pxPl(n,w){return n+" "+w+(n===1?"":"s")}
+function pxIds(c,k){var pb=PD.B.filter(function(b){return b.id===c.id})[0];var m=pb&&pb.car.filter(function(x){return x.n===k.n})[0];return m?m.p:[]}
+var PG={
+lifesci:["Medicine","Dentistry","Pharmacy","MSc / PhD research","Graduate certificates"],
+healthsci:["Medicine","Physiotherapy / OT","Speech-language pathology","After-degree nursing","Public health","MSc / PhD health research"],
+kin:["Physiotherapy (MScPT)","Occupational therapy (MScOT)","Medicine","Chiropractic","Teaching (BEd)","MSc / PhD exercise science"],
+bio:["MSc / PhD biology or ecology","Medical or dental school","Veterinary medicine","Teaching degree","Environmental graduate programs"],
+biomed:["Medical school","Dental school","Pharmacy school","MSc / PhD biomedical research"],
+neuro:["MSc / PhD neuroscience","Medicine (neurology, psychiatry)","Clinical psychology","Speech-language and rehab science"],
+bscn:["Nurse practitioner","Clinical specialist programs","MScN / PhD"],
+biochem:["Pharmacy (PharmD)","Medicine or dentistry","MSc / PhD chemistry or biochemistry","Regulatory affairs certificate"],
+civil:["MASc / MEng (structures, transport)","MBA or project management certificate","PhD (research or teaching)"],
+mech:["MASc / MEng (robotics, energy)","MBA","PhD (research and development)"],
+ece:["MASc / MEng (AI, power, micro)","PhD (research roles)"],
+cheme:["MASc / MEng (materials, energy)","MBA","PhD (research)"],
+engtech:["Not required","Bridge to engineering degree"],
+cs:["MSc / MASc (AI, research)","MBA","PhD","Often not needed for software jobs"],
+bmath:["MMath / MSc / PhD","Actuarial exams"],
+stats:["MSc (statistics, data science)","MSc biostatistics","PhD (research)"],
+it:["Graduate certificate (security, cloud)","MSc / MEng","Vendor certifications (Azure, AWS)"],
+mis:["MBA","Master of Management / IT","Certifications (CBAP)"],
+acct:["CPA professional program (CPA PREP)","CFE exam + ~30 months experience","Master's in accounting (optional)"],
+fin:["CFA levels (optional)","Master of Finance","MBA"],
+mkt:["MBA","Master of Marketing","Digital marketing / analytics certification"],
+hr:["CPHR designation","MBA (optional)","Industrial relations master's"],
+bcom:["MBA (after work experience)","CPA / CFA / PMP designations","Specialized master's"],
+econ:["MA / PhD economics","Public administration master's","Law school","MBA"],
+actsci:["Not required","SOA / CAS professional exams"],
+polisci:["Law school (LSAT, JD)","Public admin / policy master's","MA / PhD"],
+lawsoc:["Law school (LSAT, JD)","Paralegal studies","Justice-related master's"],
+paralegal:["Not required","Degree or law school (some)"],
+crim:["Graduate certificate / MA","Law school","Police recruitment"],
+polfound:["Not required","Degree later (many)"],
+pubpol:["MPA / MA","Law school"],
+forensic:["Graduate certificate / MSc / MA","Law school","Police recruitment"],
+conced:["Master's in education (optional)","Additional qualification courses"],
+subjdeg:["BEd (2-year consecutive)","Master's (optional)"],
+ecedip:["Not required","Child studies or education degree"],
+bsw:["MSW (1\u20132 years)","Supervision and counselling"],
+soc:["MSW","Law school","Public policy master's","MA / PhD"],
+ling:["MSc speech-language pathology","Audiology","Research degree"],
+cyw:["Not required","Bridge to social work or education"],
+psych:["Clinical / counselling psychology","MSW / counselling master's","Medical school (psychiatry)"],
+ssw:["Not required","Bridge to psychology or social work"],
+journ:["Master of Journalism","College graduate certificate","MA media studies"],
+comms:["Graduate certificate (PR, comms)","CPRS APR accreditation","MA / MBA"],
+design:["Rarely required","MDes / MFA (optional)"],
+mediaprod:["Optional graduate certificate","MFA (optional)"]
+};
+function pxT(x,y,t,max,fs,wt,fill){
+ var st='style="font-weight:'+wt+';font-size:'+fs+'px;fill:'+fill+'"';
+ if(t.length<=max)return '<text x="'+x+'" y="'+(y+27)+'" '+st+'>'+pxEsc(t)+'</text>';
+ var m=Math.floor(t.length/2),i=t.lastIndexOf(" ",m+4);if(i<8)i=t.indexOf(" ",m);
+ return '<text x="'+x+'" y="'+(y+18)+'" '+st.replace(fs+"px",(fs-1)+"px")+'><tspan x="'+x+'">'+pxEsc(t.slice(0,i))+' </tspan><tspan x="'+x+'" dy="15">'+pxEsc(t.slice(i+1))+'</tspan></text>';
+}
+function pxTree(c,ci,pi){
+ var progs=pxIds(c,c.car[ci]),pg=PG[progs[pi]]||[];
+ var H=Math.max(c.car.length,progs.length,pg.length)*52+16,cy=H/2;
+ var h='<div class="card"><h2>'+pxEsc(c.n)+'</h2><svg viewBox="0 0 1080 '+H+'" role="img" aria-label="'+pxEsc(c.n)+' careers, programs and postgrad options">';
+ h+='<rect x="6" y="'+(cy-30)+'" width="130" height="60" rx="10" fill="'+c.c+'"/><text x="71" y="'+(cy-3)+'" text-anchor="middle" style="fill:#fff;font-weight:700;font-size:14px">'+pxEsc(c.n.split(" ")[0])+'</text><text x="71" y="'+(cy+16)+'" text-anchor="middle" style="fill:#fff;font-size:11px">Grade 11-12 pathway</text>';
+ var cTop=(H-c.car.length*52+8)/2,selY=0;
+ c.car.forEach(function(k,j){
+  var y=cTop+j*52,sel=j===ci;if(sel)selY=y;
+  h+='<path d="M136 '+cy+'C155 '+cy+' 150 '+(y+22)+' 170 '+(y+22)+'" fill="none" stroke="'+c.c+'" stroke-width="2"/>';
+  h+='<g class="node" data-c="'+j+'" tabindex="0"><rect x="170" y="'+y+'" width="290" height="44" rx="9" fill="'+(sel?c.c:"var(--chip)")+'" stroke="'+c.c+'"/><text x="184" y="'+(y+19)+'" style="font-weight:700;font-size:14px;fill:'+(sel?"#fff":"var(--ink)")+'">'+pxEsc(k.n)+'</text><text x="184" y="'+(y+35)+'" style="font-size:11px;fill:'+(sel?"#fff":"var(--mute)")+'">'+pxPl(k.r.length,"step")+" \u00b7 "+pxPl(pxIds(c,k).length,"program")+'</text></g>';
+ });
+ var pTop=(H-progs.length*52+8)/2,selP=0;
+ progs.forEach(function(id,j){
+  var y=pTop+j*52,sel=j===pi;if(sel)selP=y;
+  h+='<path d="M460 '+(selY+22)+'C480 '+(selY+22)+' 480 '+(y+22)+' 500 '+(y+22)+'" fill="none" stroke="'+c.c+'" stroke-width="2"/>';
+  h+='<g class="node" data-p="'+j+'" tabindex="0"><rect x="500" y="'+y+'" width="280" height="44" rx="9" fill="'+(sel?c.c:"var(--chip)")+'" stroke="'+c.c+'"/>'+pxT(514,y,PD.P[id].n,31,13,700,sel?"#fff":"var(--ink)")+'</g>';
+ });
+ var gTop=(H-pg.length*52+8)/2;
+ pg.forEach(function(t,j){
+  var y=gTop+j*52;
+  h+='<path d="M780 '+(selP+22)+'C800 '+(selP+22)+' 800 '+(y+22)+' 820 '+(y+22)+'" fill="none" stroke="'+c.c+'" stroke-width="2" stroke-dasharray="5 3"/>';
+  h+='<g class="leaf"><rect x="820" y="'+y+'" width="256" height="44" rx="9" fill="var(--card)" stroke="'+c.c+'" stroke-dasharray="5 3"/>'+pxT(834,y,t,27,12.5,600,"var(--ink)")+'</g>';
+ });
+ return h+'</svg><p class="note">Select a career to see its route and programs, then select a program to see its postgrad options (dashed boxes) and the program details below.</p></div>';
+}
+function pxCard(c,ci,pi){
+ var k=c.car[ci],x=PD.P[pxIds(c,k)[pi]];
+ var h='<div class="card"><h2>University program: '+pxEsc(x.n)+'</h2><p class="pg-path">'+pxEsc(c.n)+' \u203a '+pxEsc(k.n)+' \u203a '+pxEsc(x.n)+'</p>';
+ if(PD.TIPS[k.n])h+='<p class="note" style="margin-top:0">'+pxEsc(PD.TIPS[k.n])+'</p>';
+ return h+'<div class="grid"><div class="g"><h3>What you would study</h3><p>'+pxEsc(x.a)+'</p></div><div class="g"><h3>Postgrad options</h3><p>'+pxEsc(x.b)+'</p></div><div class="g"><h3>Work after postgrad</h3><p>'+pxEsc(x.c)+'</p></div><div class="g pg-stop"><h3>If you stop after undergrad</h3><p>'+pxEsc(x.d)+'</p></div></div></div>';
+}
+function mapX(){
+ var w=document.createElement("div");w.innerHTML=map();
+ w.children[0].insertAdjacentHTML("afterend",'<div class="card" style="--c:#1d2433"><h2>How to read the tree</h2><div class="chain"><div class="step"><b>1. Branch</b><span>Pick one of the eight branches.</span><i>Pick one</i></div><div class="step"><b>2. Career</b><span>See the route from high school to licence for each career in the branch.</span><i>Pick one</i></div><div class="step"><b>3. Program</b><span>See the university programs that lead to that career: what you study and what happens if you stop after your degree.</span><i>Pick one</i></div><div class="step"><b>4. Postgrad</b><span>See where each program can lead next: professional schools, graduate degrees, certificates and designations.</span><i>See options</i></div></div></div>');
+ return w.innerHTML;
+}
+function branchX(c,ci,pi){
+ var w=document.createElement("div");w.innerHTML=branch(c,ci);
+ var root=w.firstChild;
+ root.children[1].insertAdjacentHTML("afterend",pxCard(c,ci,pi));
+ root.children[0].outerHTML=pxTree(c,ci,pi);
+ return w.innerHTML;
+}
+function show(i,ci,pi){
+ cur=i;curC=ci||0;curP=pi||0;
  [].forEach.call(tabs.children,function(b,j){b.setAttribute("aria-selected",j===i+1);b.tabIndex=j===i+1?0:-1});
- view.innerHTML=i<0?map():branch(C[i],ci||0);
+ view.innerHTML=i<0?mapX():branchX(C[i],curC,curP);
  view.setAttribute("aria-labelledby",tabs.children[i+1].id);
  view.querySelectorAll("svg").forEach(function(svg){
   var wrapper=document.createElement("div");wrapper.className="diagram-scroll";
@@ -478,7 +651,7 @@ tabs.appendChild(el("button",{type:"button",role:"tab",id:"career-home","aria-co
 C.forEach(function(c){var b=el("button",{type:"button",role:"tab",id:"career-"+c.id,"aria-controls":"view"},c.n);b.style.setProperty("--c",c.c);tabs.appendChild(b)});
 tabs.addEventListener("click",function(e){var b=e.target.closest("button");if(b)show([].indexOf.call(tabs.children,b)-1)});
 view.addEventListener("click",function(e){var g=e.target.closest(".node");if(!g)return;
- if(g.dataset.i!=null)show(+g.dataset.i);else show(cur,+g.dataset.c)});
+ if(g.dataset.i!=null)show(+g.dataset.i);else if(g.dataset.p!=null)show(cur,curC,+g.dataset.p);else show(cur,+g.dataset.c)});
 view.addEventListener("keydown",function(e){if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("node")){e.preventDefault();e.target.dispatchEvent(new MouseEvent("click",{bubbles:true}))}});
 tabs.addEventListener("keydown",function(e){
  var buttons=Array.from(tabs.children),index=buttons.indexOf(e.target),next=index;
