@@ -161,6 +161,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .school-guide ol li::marker { font-weight: 700; color: #0f3d3e; }
 .sg-tall { max-height: 70vh; overflow-y: auto; }
 .sg-peel th, .sg-peel td { background: #fdf6e6; }
+.sg-more { margin-top: 16px; border: 1px solid var(--line); border-radius: 10px; padding: 4px 16px 12px; }
+.sg-more summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; }
+.sg-wide { min-width: 1100px; }
+.sg-wide thead th { vertical-align: bottom; font-size: 13px; }
+.sg-wide td { text-align: center; }
 .sg-scroll:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
 
 @media (max-width: 600px) {
