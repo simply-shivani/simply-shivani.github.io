@@ -168,6 +168,16 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .sg-wide td { text-align: center; }
 .sg-scroll:focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
 
+/* Program Paths tab */
+.pg-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 14px; }
+.pg-btn { border: 1px solid var(--line); background: var(--card); color: var(--ink); padding: 9px 16px; min-height: 44px; border-radius: 999px; font: 600 14px inherit; cursor: pointer; }
+.pg-btn:hover { border-color: #0f3d3e; }
+.pg-btn[aria-pressed=true] { background: #0f3d3e; color: #fff; border-color: transparent; }
+.pg-btn:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.pg-detail { border-left: 6px solid var(--c, #0f3d3e); }
+.pg-path { margin: 0 0 6px; font-size: 13px; font-weight: 600; color: var(--mute); }
+.school-guide .pg-stop { background: #fdf6e6; border: 1px solid #e0902b; }
+
 @media (max-width: 600px) {
   .sg-card { padding: 18px; }
   .sg-ev { gap: 12px; }

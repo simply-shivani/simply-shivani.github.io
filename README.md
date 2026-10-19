@@ -1,6 +1,6 @@
 # Shivani K. — Portfolio & Career Paths
 
-The home page has six tabs. About combines Shivani's story, academics, activities and achievements in one place. Career Paths contains a general interactive Ontario career planning guide, including all eight career branches, courses, routes, licensing, supplemental applications, graduation guidance and outside-credit guidance. All site files are contained in this folder.
+The home page has seven tabs. About combines Shivani's story, academics, activities and achievements in one place. Career Paths contains a general interactive Ontario career planning guide, including all eight career branches, courses, routes, licensing, supplemental applications, graduation guidance and outside-credit guidance. All site files are contained in this folder.
 
 Open `index.html` directly, or serve this folder with `python3 -m http.server 8000` and visit `http://localhost:8000`. The site uses plain HTML, CSS and JavaScript and can be hosted directly on GitHub Pages.
 
@@ -10,6 +10,7 @@ Open `index.html` directly, or serve this folder with `python3 -m http.server 80
 - `school-guides.js`: data and rendering for the **PDSB Schools** and **DPCDSB Schools** tabs (rankings, special programs, open house dates, best schools by career area). Edit the `PDSB`, `PDSB_EV`, `DP` and `DP_EV` lists at the top to update schools or dates; dates are compared with the visitor's current day to mark sessions Upcoming or Past.
 - `ontario-rankings.js`: the **Ontario Rankings** tab, listing all 747 schools from the Fraser Institute 2025 report (`index.html#ontario`). Peel schools are tagged `~P` (PDSB) or `~D` (DPCDSB) in the data.
 - `university-rankings.js`: the **University Rankings** tab (`index.html#universities`): Maclean’s 2027 large and mid-size rankings with tuition, median entering grades and all 15 ranking measures, plus a Grade 9–12 application timeline paraphrased from Maclean’s “How to Apply” guide. Small universities link out to Maclean’s.
+- `program-paths.js`: the **Program Paths** tab (`index.html#programs`), placed after University Rankings. Pick a career branch, a career, then an undergraduate program to see what you would study, postgrad options, work after postgrad, and what happens if you stop after undergrad. Branches and careers match the Career Paths tab; edit the `B` (branches/careers) and `P` (programs) data at the top to update content.
 - `portfolio.js`: portfolio navigation, keyboard support and section URL hashes.
 - `career-paths.js`: general career guide data and content, with tab and diagram accessibility improvements.
 
