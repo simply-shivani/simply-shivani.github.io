@@ -70,28 +70,123 @@ comms|BA Communications / Public Relations|Communication theory, writing, media,
 design|BDes / Graphic Design|Visual design, typography, branding, user experience and digital media, built around a portfolio.|Rarely required. An MDes or MFA is optional.|Graphic, UX or brand designer, or art director.|This is a complete route. Your portfolio decides hiring.
 mediaprod|Media Production / Digital Media|Video production, editing, audio, storytelling and motion graphics.|An optional graduate certificate or MFA.|Producer, editor, content creator or director.|This is a complete route. A reel and published work decide hiring.`.split("\n").forEach(l => { const f = l.split("|"); P[f[0]] = { n: f[1], a: f[2], b: f[3], c: f[4], d: f[5] }; });
 
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  root.innerHTML = `<h2 class="career-title">University programs for each career</h2>
-<p class="sub">Choose a branch and a career from the <a href="#career">Career Paths</a> tab, then see which undergraduate programs lead there, what you would study, where postgraduate study can take you, the work you could do, and what happens if you stop after your undergraduate degree.</p>
-<p class="note">General overview for Ontario. Program names, admission averages, prerequisites and co-op options differ by university, so check each program’s admission page. Last updated: <time datetime="2026-10-18">18 October 2026</time>.</p>
-<div class="pg-row" role="group" aria-label="Career branch" data-b></div>
-<div class="sg-card"><p class="sl" id="pg-l1">Careers in <span data-bn></span></p><div class="pg-row" role="group" aria-labelledby="pg-l1" data-c></div><p class="note" data-tip></p>
-<p class="sl" id="pg-l2">Undergraduate programs that lead to <span data-cn></span></p><div class="pg-row" role="group" aria-labelledby="pg-l2" data-p></div></div>
-<div data-d aria-live="polite"></div>`;
-  const q = s => root.querySelector(s), S = { b: 0, c: 0, p: 0 };
-  const btn = (t, k, on) => `<button type="button" class="pg-btn" aria-pressed="${on}" data-k="${k}">${esc(t)}</button>`;
-  const set = (el, k) => el.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x.dataset.k == k));
-  const cur = () => { const b = B[S.b], c = b.car[S.c]; return { b, c, p: c.p[S.p] }; };
-  function drawD() {
-    const { b, c, p } = cur(), x = P[p];
-    q("[data-d]").innerHTML = `<article class="sg-card pg-detail" style="--c:${b.c}"><p class="pg-path">${esc(b.n)} › ${esc(c.n)} › ${esc(x.n)}</p><h3>${esc(x.n)}</h3>
-<div class="sg-grid"><div class="g"><h4>What you would study</h4><p>${esc(x.a)}</p></div><div class="g"><h4>Postgrad options</h4><p>${esc(x.b)}</p></div><div class="g"><h4>Work after postgrad</h4><p>${esc(x.c)}</p></div><div class="g pg-stop"><h4>If you stop after undergrad</h4><p>${esc(x.d)}</p></div></div></article>`;
+  const SUB = { health: "MD, Nursing, Pharmacy, Rehab", eng: "Civil, Mechanical, Electrical, Chemical", cs: "Software, Data, Cloud, Security, AI", biz: "Accounting, Finance, Marketing, HR", law: "Lawyer, Police, Policy, Security", edu: "Teacher, ECE, Social Work, SLP", psy: "Psychologist, Therapist, Neuroscience", media: "Journalism, PR, Design, Content" };
+  const esc = s => String(s).replace(/[&<>\"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const pl = (n, w) => n + " " + w + (n === 1 ? "" : "s");
+  const nProg = b => new Set(b.car.flatMap(c => c.p)).size;
+
+  root.innerHTML = `<h2 class="career-title">University Programs for Each Career</h2>
+<p class="sub">This tab continues the tree from <a href="#career">Career Paths</a>. Pick the same branch and career, then see the undergraduate programs that lead there, what you would study, where postgraduate study can take you, and what happens if you stop after your degree.</p>
+<p class="note">General overview for Ontario. Program names, admission averages, prerequisites and co-op options differ by university, so check each program’s admission page.</p>
+<p class="note">Last updated: <time datetime="2026-10-19">19 October 2026</time>.</p>
+<div class="tabs" role="tablist" aria-label="Career branches" id="pg-tabs"></div>
+<div id="pg-view" role="tabpanel" tabindex="0"></div>`;
+
+  const tabs = root.querySelector("#pg-tabs"), view = root.querySelector("#pg-view");
+  const S = { i: -1, c: 0, p: 0 };
+  const el = (t, a, h) => { const e = document.createElement(t); for (const k in a || {}) e.setAttribute(k, a[k]); if (h != null) e.innerHTML = h; return e; };
+
+  function map() {
+    let h = '<div class="card"><h2>The big picture: one trunk, eight branches, then your program</h2><svg viewBox="0 0 820 500" role="img" aria-label="Career branches">';
+    h += '<rect x="8" y="215" width="150" height="70" rx="10" fill="#1d2433"/><text x="83" y="245" text-anchor="middle" style="fill:#fff;font-weight:700;font-size:14px">Grades 9-10</text><text x="83" y="266" text-anchor="middle" style="fill:#cbd2e2;font-size:11px">Eng,Math,Sci, Geo, His</text>';
+    h += '<rect x="200" y="215" width="150" height="70" rx="10" fill="#3b4763"/><text x="275" y="245" text-anchor="middle" style="fill:#fff;font-weight:700;font-size:14px">Grades 11-12</text><text x="275" y="266" text-anchor="middle" style="fill:#cbd2e2;font-size:11px">Pick 4U/4M courses</text>';
+    h += '<path d="M158 250H200" stroke="#7b869f" stroke-width="2"/>';
+    B.forEach((b, i) => {
+      const y = 8 + i * 61;
+      h += `<path d="M350 250C420 250 410 ${y + 26} 470 ${y + 26}" fill="none" stroke="${b.c}" stroke-width="2.5"/>`;
+      h += `<g class="node" data-i="${i}" tabindex="0"><rect x="470" y="${y}" width="340" height="52" rx="10" fill="${b.c}"/><text x="486" y="${y + 22}" style="fill:#fff;font-weight:700;font-size:15px">${esc(b.n)}</text><text x="486" y="${y + 40}" style="fill:#fff;opacity:.9;font-size:12px">${esc(SUB[b.id])}</text><text x="796" y="${y + 22}" text-anchor="end" style="fill:#fff;font-size:11px">${pl(b.car.length, "career")}</text><text x="796" y="${y + 40}" text-anchor="end" style="fill:#fff;opacity:.9;font-size:11px">${pl(nProg(b), "program")}</text></g>`;
+    });
+    h += '</svg><p class="note">Select a branch to see its careers and the undergraduate programs that lead to each one.</p></div>';
+    h += `<div class="card" style="--c:#1d2433"><h2>How to read the tree</h2><div class="chain"><div class="step"><b>1. Branch</b><span>The same eight branches as the Career Paths tab.</span><i>Pick one</i></div><div class="step"><b>2. Career</b><span>The same careers listed under each branch in Career Paths.</span><i>Pick one</i></div><div class="step"><b>3. Program</b><span>The undergraduate programs that lead to that career, with what you study, postgrad options and what happens if you stop after your degree.</span><i>New here</i></div></div></div>`;
+    return h;
   }
-  function drawP() { const { c } = cur(); q("[data-cn]").textContent = c.n; q("[data-tip]").textContent = TIPS[c.n] || ""; q("[data-p]").innerHTML = c.p.map((id, i) => btn(P[id].n, i, i === S.p)).join(""); drawD(); }
-  function drawC() { const b = B[S.b]; q("[data-bn]").textContent = b.n; q("[data-c]").innerHTML = b.car.map((c, i) => btn(c.n, i, i === S.c)).join(""); drawP(); }
-  q("[data-b]").innerHTML = B.map((b, i) => btn(b.n, i, i === 0)).join("");
-  q("[data-b]").addEventListener("click", e => { const t = e.target.closest("button"); if (!t) return; S.b = +t.dataset.k; S.c = 0; S.p = 0; set(q("[data-b]"), S.b); drawC(); });
-  q("[data-c]").addEventListener("click", e => { const t = e.target.closest("button"); if (!t) return; S.c = +t.dataset.k; S.p = 0; set(q("[data-c]"), S.c); drawP(); });
-  q("[data-p]").addEventListener("click", e => { const t = e.target.closest("button"); if (!t) return; S.p = +t.dataset.k; set(q("[data-p]"), S.p); drawD(); });
-  drawC();
+
+  function branch(b, ci, pi) {
+    const car = b.car[ci], progs = car.p;
+    const H = Math.max(b.car.length, progs.length) * 52 + 16, cy = H / 2;
+    let h = `<div style="--c:${b.c}"><div class="card"><h2>${esc(b.n)}</h2><svg viewBox="0 0 920 ${H}" role="img" aria-label="${esc(b.n)} careers and programs">`;
+    h += `<rect x="6" y="${cy - 30}" width="150" height="60" rx="10" fill="${b.c}"/><text x="81" y="${cy - 3}" text-anchor="middle" style="fill:#fff;font-weight:700;font-size:14px">${esc(b.n.split(" ")[0])}</text><text x="81" y="${cy + 16}" text-anchor="middle" style="fill:#fff;font-size:11px">Grade 11-12 pathway</text>`;
+    const cTop = (H - b.car.length * 52 + 8) / 2;
+    let selY = 0;
+    b.car.forEach((k, j) => {
+      const y = cTop + j * 52, sel = j === ci;
+      if (sel) selY = y;
+      h += `<path d="M156 ${cy}C200 ${cy} 190 ${y + 22} 230 ${y + 22}" fill="none" stroke="${b.c}" stroke-width="2"/>`;
+      h += `<g class="node" data-c="${j}" tabindex="0"><rect x="230" y="${y}" width="290" height="44" rx="9" fill="${sel ? b.c : "var(--chip)"}" stroke="${b.c}"/><text x="244" y="${y + 27}" style="font-weight:700;font-size:14px;fill:${sel ? "#fff" : "var(--ink)"}">${esc(k.n)}</text><text x="506" y="${y + 27}" text-anchor="end" style="font-size:11px;fill:${sel ? "#fff" : "var(--mute)"}">${pl(k.p.length, "program")}</text></g>`;
+    });
+    const pTop = (H - progs.length * 52 + 8) / 2;
+    progs.forEach((id, j) => {
+      const y = pTop + j * 52, sel = j === pi;
+      h += `<path d="M520 ${selY + 22}C560 ${selY + 22} 550 ${y + 22} 590 ${y + 22}" fill="none" stroke="${b.c}" stroke-width="2"/>`;
+      h += `<g class="node" data-p="${j}" tabindex="0"><rect x="590" y="${y}" width="322" height="44" rx="9" fill="${sel ? b.c : "var(--chip)"}" stroke="${b.c}"/><text x="604" y="${y + 27}" style="font-weight:700;font-size:13px;fill:${sel ? "#fff" : "var(--ink)"}">${esc(P[id].n)}</text></g>`;
+    });
+    h += `</svg><p class="note">Select a career to see its programs, then select a program to see the details below.</p></div>`;
+    const x = P[progs[pi]];
+    h += `<div class="card"><h2>${esc(x.n)}</h2><p class="pg-path">${esc(b.n)} › ${esc(car.n)} › ${esc(x.n)}</p>`;
+    if (TIPS[car.n]) h += `<p class="note" style="margin-top:0">${esc(TIPS[car.n])}</p>`;
+    h += `<div class="grid"><div class="g"><h3>What you would study</h3><p>${esc(x.a)}</p></div><div class="g"><h3>Postgrad options</h3><p>${esc(x.b)}</p></div><div class="g"><h3>Work after postgrad</h3><p>${esc(x.c)}</p></div><div class="g pg-stop"><h3>If you stop after undergrad</h3><p>${esc(x.d)}</p></div></div>`;
+    h += `<p class="note">Want the full route, licences and high school courses for ${esc(car.n)}? Open <a href="#career">Career Paths</a> and choose ${esc(b.n)}.</p></div></div>`;
+    return h;
+  }
+
+  function show(i, ci, pi) {
+    S.i = i; S.c = ci || 0; S.p = pi || 0;
+    [].forEach.call(tabs.children, (b, j) => { b.setAttribute("aria-selected", j === i + 1); b.tabIndex = j === i + 1 ? 0 : -1; });
+    view.innerHTML = i < 0 ? map() : branch(B[i], S.c, S.p);
+    view.setAttribute("aria-labelledby", tabs.children[i + 1].id);
+    view.querySelectorAll("svg").forEach(svg => {
+      const w = document.createElement("div"); w.className = "diagram-scroll"; w.tabIndex = 0; w.setAttribute("role", "region");
+      w.setAttribute("aria-label", svg.getAttribute("aria-label") + " diagram (scroll horizontally on small screens)");
+      svg.parentNode.insertBefore(w, svg); w.appendChild(svg);
+    });
+    view.querySelectorAll(".node").forEach(n => { n.setAttribute("role", "button"); n.setAttribute("aria-label", n.textContent.trim()); });
+    const panel = document.getElementById("panel-programs");
+    if (panel && !panel.hidden && !syncing) tabs.scrollIntoView({ block: "start" });
+  }
+
+  tabs.appendChild(el("button", { type: "button", role: "tab", id: "pg-home", "aria-controls": "pg-view" }, "Home"));
+  B.forEach(b => { const t = el("button", { type: "button", role: "tab", id: "pg-" + b.id, "aria-controls": "pg-view" }, esc(b.n)); t.style.setProperty("--c", b.c); tabs.appendChild(t); });
+  tabs.addEventListener("click", e => { const b = e.target.closest("button"); if (b) show([].indexOf.call(tabs.children, b) - 1); });
+  view.addEventListener("click", e => {
+    const g = e.target.closest(".node"); if (!g) return;
+    if (g.dataset.i != null) show(+g.dataset.i);
+    else if (g.dataset.c != null) show(S.i, +g.dataset.c, 0);
+    else show(S.i, S.c, +g.dataset.p);
+  });
+  view.addEventListener("keydown", e => {
+    if ((e.key === "Enter" || e.key === " ") && e.target.classList && e.target.classList.contains("node")) { e.preventDefault(); e.target.dispatchEvent(new MouseEvent("click", { bubbles: true })); }
+  });
+  tabs.addEventListener("keydown", e => {
+    const bs = Array.from(tabs.children), idx = bs.indexOf(e.target); let next = idx;
+    if (idx < 0) return;
+    if (e.key === "ArrowRight") next = (idx + 1) % bs.length;
+    else if (e.key === "ArrowLeft") next = (idx + bs.length - 1) % bs.length;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = bs.length - 1;
+    else return;
+    e.preventDefault(); show(next - 1); bs[next].focus({ preventScroll: true }); bs[next].scrollIntoView({ block: "nearest", inline: "nearest" });
+  });
+
+  // Continue where the visitor left off in Career Paths: when this tab opens, match its branch and career.
+  let syncing = false, lastKey = null;
+  function fromCareerTab() {
+    const t = document.querySelector("#tabs [aria-selected=true]");
+    if (!t || !t.id || t.id === "career-home") return null;
+    const bi = B.findIndex(b => "career-" + b.id === t.id);
+    if (bi < 0) return null;
+    let ci = 0;
+    document.querySelectorAll("#view .node[data-c]").forEach(n => { const r = n.querySelector("rect"); if (r && r.getAttribute("fill") !== "var(--chip)") ci = +n.dataset.c; });
+    return { bi, ci: Math.min(ci, B[bi].car.length - 1) };
+  }
+  function sync() {
+    const f = fromCareerTab(); if (!f) return;
+    const key = f.bi + ":" + f.ci;
+    if (key === lastKey) return;
+    lastKey = key; syncing = true; show(f.bi, f.ci, 0); syncing = false;
+  }
+  const panel = document.getElementById("panel-programs");
+  if (panel) new MutationObserver(() => { if (!panel.hidden) sync(); }).observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+
+  show(-1);
+  if (panel && !panel.hidden) sync();
 })();
