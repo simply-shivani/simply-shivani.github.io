@@ -42,6 +42,13 @@
     "Mount Royal University|AB|18|0|$9,180|Arts 78.4%; Science 82.6%; Business 80.6%|18,9,13,14,17,19,18,18,19,14,4,17,19,1,11",
     "MacEwan University|AB|19|0|$8,103 to $9,123|Arts 75.8%; Science 80%; Commerce 76.6%|18,16,18,11,17,18,19,19,14,8,5,13,17,7,19"
   ];
+  const INTERNATIONAL = [
+    { c: 1, w: 22, n: "University of Toronto" },
+    { c: 2, w: 43, n: "McGill" },
+    { c: 3, w: 44, n: "UBC" },
+    { c: null, w: 118, n: "University of Alberta" },
+    { c: 6, w: 132, n: "Université de Montréal" }
+  ];
   const TIMELINE = [
     ["Grades 9–10: get a head start", [
       ["", "Think about what you might study, such as arts, sciences or medicine. Many universities publish advice on which early high school courses keep your options open."],
@@ -75,7 +82,8 @@
 
   const SETS = [
     ["large", "Large universities", "Over 30,000 students", parse(LARGE), ML + "canadas-best-large-universities-for-2027/", ML + "spotlight-on-canadas-top-three-large-universities/"],
-    ["mid", "Mid-size universities", "10,000 to 30,000 students", parse(MID), ML + "canadas-best-mid-size-universities-for-2027/", ML + "spotlight-on-canadas-top-three-mid-size-universities/"]
+    ["mid", "Mid-size universities", "10,000 to 30,000 students", parse(MID), ML + "canadas-best-mid-size-universities-for-2027/", ML + "spotlight-on-canadas-top-three-mid-size-universities/"],
+    ["international", "International University Ranking", "World and Canadian rank for key universities", INTERNATIONAL, null, null]
   ];
   const V = [...SETS.map(s => [s[0], s[1]]), ["plan", "Apply: Grades 9–12"]];
   root.innerHTML = `<h2 class="career-title">University rankings and how to apply</h2>
@@ -88,6 +96,13 @@ ${V.map(([k], i) => `<div class="sg-card" role="tabpanel" id="uni-p-${k}" aria-l
 
   SETS.forEach(([k, label, size, list, url, spot]) => {
     const el = P(k);
+
+    if (k === "international") {
+      el.innerHTML = `<h3>${label}</h3><p class="note">${size}. A quick view of Canada’s standing among the world’s leading universities.</p>
+<div class="sg-scroll" tabindex="0" role="region" aria-label="International university ranking table, scrolls sideways on small screens"><table class="sg-table"><thead><tr><th scope="col">Canada rank</th><th scope="col">World rank</th><th scope="col">University</th></tr></thead><tbody>${list.map(u => `<tr><td>${u.c === null ? "—" : u.c}</td><td>${u.w}</td><th scope="row">${esc(u.n)}</th></tr>`).join("")}</tbody></table></div>`;
+      return;
+    }
+
     el.innerHTML = `<h3>${label} for 2027</h3><p class="note">${size}. The top three are profiled in Maclean’s <a href="${spot}">spotlight article</a>, and the full list is on <a href="${url}">Maclean’s</a>. “Tie” marks schools that share a rank.</p>
 <div class="sg-controls"><label class="sg-check"><input type="checkbox" data-on> Ontario universities only</label></div><p class="note" aria-live="polite" data-n></p>
 <div class="sg-scroll" tabindex="0" role="region" aria-label="${label} table, scrolls sideways on small screens"><table class="sg-table"><thead><tr><th scope="col">Rank</th><th scope="col">University</th><th scope="col">Province</th><th scope="col">Tuition</th><th scope="col">Median entering grades</th></tr></thead><tbody></tbody></table></div>
