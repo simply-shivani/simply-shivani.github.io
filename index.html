@@ -3,17 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Meet Shivani K. and explore her activities, achievements a general Ontario career and course planning guide, and Peel high school guides for PDSB and DPCDSB.">
+<meta name="description" content="Meet Shivani K. and explore her activities, achievements a general Ontario career and course planning guide, and Peel high school guides for PDSB and DPCDSB, and the world's top 100 universities for Canadians.">
 <title>Shivani K. | Portfolio, Career Paths &amp; High School Guides</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Young+Serif&amp;family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="world-rankings.css">
 <script src="portfolio.js" defer></script>
 <script src="career-paths.js" defer></script>
 <script src="school-guides.js" defer></script>
 <script src="ontario-rankings.js" defer></script>
 <script src="university-rankings.js" defer></script>
+<script src="world-rankings.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -261,6 +263,151 @@
 </div>
 <div id="panel-universities" class="portfolio-panel" role="tabpanel" aria-labelledby="tab-universities" tabindex="0" hidden>
 <section id="guide-universities" class="school-guide" aria-label="University rankings and application timeline"></section>
+<section id="guide-world" class="school-guide world-guide" aria-label="Top 100 world universities for Canadians">
+    <header class="w-top">
+      <p class="eyebrow">Times Higher Education World Rankings 2027 · fees for 2026-27 entry</p>
+      <h2 class="career-title">Top 100 for Canadians</h2>
+      <p class="lede">What a Canadian citizen pays at each of the world's top 100 universities, and how well an Ontario diploma with IB or AP courses lines up with each school's entry rules.</p>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="World rankings sections">
+      <button role="tab" data-tab="overview" aria-selected="true" id="w-t-overview">Overview</button>
+      <button role="tab" data-tab="universities" aria-selected="false" id="w-t-universities">Universities</button>
+      <button role="tab" data-tab="costs" aria-selected="false" id="w-t-costs">Costs</button>
+      <button role="tab" data-tab="ib-ap" aria-selected="false" id="w-t-ib-ap">IB and AP</button>
+      <button role="tab" data-tab="notes" aria-selected="false" id="w-t-notes">Method and sources</button>
+    </nav>
+
+    <!-- OVERVIEW -->
+    <section class="panel" id="w-p-overview" role="tabpanel" aria-labelledby="w-t-overview">
+      <div class="stands">
+        <div><h3>Canada costs the least</h3><p>Toronto, McGill and UBC are the only top-100 schools where a Canadian citizen pays the domestic rate. Tuition runs about C$7,000 to 15,000 a year. McGill sits at the high end because Ontario residents pay the out-of-province rate.</p></div>
+        <div><h3>Germany, Austria, France, Switzerland</h3><p>These have the lowest published tuition outside Canada. Most German public universities charge nothing, Austria is about EUR 1,453, France is EUR 2,895 and ETH is CHF 4,380. Germany and Switzerland are also the hardest to enter with an OSSD alone.</p></div>
+        <div><h3>US private and UK cost the most</h3><p>US private tuition is USD 62,000 to 73,000, with a sticker price near USD 90,000 to 102,000 once housing is added. Imperial charges GBP 45,500. Aid can cut the US figure sharply at some schools.</p></div>
+        <div><h3>The IB Diploma travels furthest</h3><p>A documented IB route exists in every school group that was checked. AP is strongest in the US, Canada and Singapore. For Germany and Switzerland the IB Diploma changes the picture most.</p></div>
+      </div>
+
+      <div class="card">
+        <h2>Tuition per year by country, in Canadian dollars</h2>
+        <p class="note">Each bar runs from the lowest to the highest tuition found among the group's schools. Lighter bars include estimates. Amounts use the placeholder exchange rates on the Costs tab, which you can change.</p>
+        <div class="scroll"><div id="w-chart" style="min-width:680px"></div></div>
+      </div>
+
+      <div class="card">
+        <h2>How the 103 schools line up for an Ontario student</h2>
+        <p>The ranking has 103 entries because of ties. Fit describes how well the OSSD, AP and IB are accepted, using what the school or country pages say.</p>
+        <div class="counts" id="w-counts"></div>
+        <p class="note" style="margin-top:12px">Strong means a documented route for IB and for AP or OSSD. Good means documented with some limits. Conditional means extra exams, subjects or language are likely. Unverified means this pass did not research the rules.</p>
+      </div>
+    </section>
+
+    <!-- UNIVERSITIES -->
+    <section class="panel" id="w-p-universities" role="tabpanel" aria-labelledby="w-t-universities" hidden>
+      <div class="card">
+        <div class="tools">
+          <input type="search" id="w-q" placeholder="Search by university or country" aria-label="Search universities">
+          <label class="note" for="w-sort">Sort</label>
+          <select id="w-sort">
+            <option value="rank">World rank</option>
+            <option value="low">Tuition, low to high</option>
+            <option value="high">Tuition, high to low</option>
+          </select>
+        </div>
+        <div class="chips" id="w-chips" style="margin-top:12px" role="group" aria-label="Region filter"></div>
+        <p class="note" style="margin:12px 0 0" id="w-count"></p>
+      </div>
+      <div class="card" style="padding:8px 8px 4px">
+        <div class="scroll">
+          <table id="w-tbl" style="min-width:640px">
+            <thead><tr><th>Rank</th><th>University</th><th class="num">Tuition per year</th><th class="num">About, in CAD</th><th>Fit</th></tr></thead>
+            <tbody id="w-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <p class="note">Select a university name to open its notes. Tuition is for a first-year bachelor student at the Canadian-citizen rate (international rate outside Canada), before scholarships. Living costs are excluded unless noted.</p>
+    </section>
+
+    <!-- COSTS -->
+    <section class="panel" id="w-p-costs" role="tabpanel" aria-labelledby="w-t-costs" hidden>
+      <div class="card">
+        <h2>Exchange rates</h2>
+        <p class="note">These are placeholders, not live rates. Change any value and every Canadian-dollar figure on this page updates. Each box shows Canadian dollars per one unit.</p>
+        <div class="rates" id="w-rates"></div>
+      </div>
+      <div class="card">
+        <h2>What Canadian citizens pay, by country</h2>
+        <div class="scroll">
+          <table style="min-width:720px">
+            <thead><tr><th>Country or group</th><th class="num">Tuition per year</th><th class="num">About, in CAD</th><th>What to know</th></tr></thead>
+            <tbody id="w-costbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="callouts">
+        <div><strong>Hong Kong.</strong> Reports say non-local fees rise by up to 26% for 2027-28 entrants, and HKU medicine and dentistry go to HKD 590,000.</div>
+        <div><strong>Switzerland.</strong> ETH and EPFL tripled fees for students who move to Switzerland to study, from CHF 730 to CHF 2,190 a semester, from autumn 2025.</div>
+        <div><strong>France.</strong> Non-EU bachelor fees are EUR 2,895 from 2026-27, up from about EUR 178 for the same degree at the EU rate.</div>
+        <div><strong>Netherlands.</strong> Non-EEA bachelor fees rose by more than usual for 2026-27, and a transitional rule protects some continuing students.</div>
+        <div><strong>Singapore.</strong> The MOE Tuition Grant roughly halves the fee, and it comes with a three-year work bond in Singapore.</div>
+        <div><strong>Germany.</strong> Visa applicants show EUR 11,904 a year in a blocked account, even though most tuition is zero.</div>
+      </div>
+    </section>
+
+    <!-- IB AND AP -->
+    <section class="panel" id="w-p-ib-ap" role="tabpanel" aria-labelledby="w-t-ib-ap" hidden>
+      <div class="card">
+        <h2>Which credential opens which door</h2>
+        <p class="note">Each cell says whether the credential is a documented route into that group of schools. It does not predict admission, since every selective school also reads grades and extracurriculars.</p>
+        <div class="scroll"><div id="w-matrix" style="min-width:600px"></div></div>
+        <div class="legend">
+          <span style="--c:var(--ok)">Accepted route found</span>
+          <span style="--c:var(--warn)">Conditional: extra exams, subjects or scores</span>
+          <span style="--c:var(--bad)">Unlikely on its own</span>
+          <span style="--c:var(--unk)">Not verified</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>How Ontario treats IB and AP</h2>
+        <div class="grid2">
+          <div><h3>Admission</h3><p>AP courses run inside Ontario high schools as Grade 12 U courses. IB courses are converted to Ontario U and M courses and percentage grades. Ontario universities admit on those grades, so a strong AP exam score does not lift the admission average.</p></div>
+          <div><h3>Credit</h3><p>Credit is a separate decision made after you enrol. Official score reports are needed. U of T caps credit from all secondary curricula at 3.0 credits, roughly one year. UBC credits AP grades of 4 or better. McGill publishes an IB course chart. Ontario Tech lists up to 18 credit hours for Higher Level IB grades of 5 or more.</p></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>US credit policies at selected schools</h2>
+        <p class="note">Policies change by subject and year. Run each school's registrar page or the College Board credit search before relying on credit.</p>
+        <div class="scroll"><table style="min-width:640px"><thead><tr><th>School</th><th>AP</th><th>IB</th></tr></thead><tbody id="w-uscredit"></tbody></table></div>
+      </div>
+
+      <div class="card">
+        <h2>UK offers written in IB points</h2>
+        <div class="scroll"><table style="min-width:560px"><thead><tr><th>University</th><th>Typical IB offer</th></tr></thead><tbody id="w-ukib"></tbody></table></div>
+        <p class="note" style="margin-top:10px">For AP, Cambridge's international guidance expects 5s in several subjects. Oxford and Cambridge combine the offer with admissions tests and interviews.</p>
+      </div>
+
+      <div class="card">
+        <h2>Country rules in more detail</h2>
+        <div class="grid2" id="w-countrycards"></div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section class="panel" id="w-p-notes" role="tabpanel" aria-labelledby="w-t-notes" hidden>
+      <div class="card">
+        <h2>How this was built</h2>
+        <p>The list is the top 100 of the Times Higher Education World University Rankings 2027, published on 30 September 2026. Ties give 103 entries. Tuition is the first-year bachelor fee for 2026-27 where a figure was published, and a category estimate where it was not.</p>
+        <p>Each row carries a label. A published figure comes from a school page or a source that cites one. An estimate is a range for the school's country or tier. Not found means no usable figure turned up. Canadian citizens count as international students everywhere except Canada, so no home-student rates apply abroad.</p>
+        <p>Fit ratings are a reading of admission pages and counselling guides, not an official classification. Seven country groups (mainland China, Japan, South Korea, France, Denmark, Sweden, Belgium and Austria) were not researched for IB and AP rules. They show as Unverified. Check those schools' own pages if you shortlist any.</p>
+        <p>Tuition varies by programme, and medicine, dentistry, engineering and business often cost more. Scholarships, need-based aid, housing, food, insurance, visas and flights are not included except where a note says so.</p>
+      </div>
+      <div class="card">
+        <h2>Sources</h2>
+        <ul class="src" id="w-srclist"></ul>
+      </div>
+    </section>
+</section>
 </div>
 <noscript><p>This site's tabs and interactive career guide need JavaScript. Enable JavaScript to explore all sections.</p></noscript>
 </main>

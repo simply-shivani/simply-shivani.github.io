@@ -85,7 +85,7 @@
     ["mid", "Mid-size universities", "10,000 to 30,000 students", parse(MID), ML + "canadas-best-mid-size-universities-for-2027/", ML + "spotlight-on-canadas-top-three-mid-size-universities/"],
     ["international", "International University Ranking", "World and Canadian rank for key universities", INTERNATIONAL, null, null]
   ];
-  const V = [...SETS.map(s => [s[0], s[1]]), ["plan", "Apply: Grades 9–12"]];
+  const V = [...SETS.map(s => [s[0], s[1]]), ["world", "World Top 100"], ["plan", "Apply: Grades 9–12"]];
   root.innerHTML = `<h2 class="career-title">University rankings and how to apply</h2>
 <p class="sub">Maclean’s 2027 university rankings for large and mid-size universities, with tuition and median entering grades, plus a Grade 9–12 planning timeline from Maclean’s “How to Apply” guide.</p>
 <p class="note">Unofficial summary of Maclean’s pages published 14 October 2026. Ranks compare universities only within the same size group. Confirm tuition, grades and deadlines with each university. Maclean’s also ranks small universities (<a href="${ML}canadas-best-small-universities-for-2027/">see the list</a>), and explains its measures in its <a href="${ML}macleans-university-rankings-methodology-2027/">methodology</a>. Last updated: <time datetime="2026-10-18">18 October 2026</time>.</p>
@@ -93,6 +93,8 @@
 ${V.map(([k], i) => `<div class="sg-card" role="tabpanel" id="uni-p-${k}" aria-labelledby="uni-t-${k}" tabindex="0"${i ? " hidden" : ""}></div>`).join("")}
 <p class="note">Sources: <a href="${ML}">Maclean’s 2027 University Rankings</a>; <a href="https://macleans.mblycdn.com/uploads/mac/2025/09/UG23_GettinIn_Howto_colourcd-JH4_DIGITAL.pdf">Maclean’s “How to Apply” guide (PDF)</a>.</p>`;
   const P = k => document.getElementById("uni-p-" + k);
+  const world = document.getElementById("guide-world");
+  if (world) P("world").appendChild(world);
 
   SETS.forEach(([k, label, size, list, url, spot]) => {
     const el = P(k);

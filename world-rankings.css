@@ -1,0 +1,87 @@
+/* Top 100 for Canadians (World Rankings tab). Everything is scoped to #guide-world. */
+#guide-world {
+  --bg: #f4f6f2; --surface: #FFFFFF; --fg: #12302f; --muted: #3d5654; --line: #d5ded8;
+  --accent: #0f3d3e; --accent-soft: #e1ece9; --bar: #0f3d3e; --bar-est: #8fb0ac;
+  --ok: #1F7A4D; --okbg: #DDF1E5; --warn: #8A5600; --warnbg: #FBEBCB; --bad: #A63A2B; --badbg: #F6DDD8; --unk: #4A5B66; --unkbg: #E4E9EC;
+  --display: 'Young Serif', Georgia, serif;
+  --mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --body: 'Figtree', system-ui, sans-serif;
+  color: var(--fg); font-size: 15px; line-height: 1.55;
+}
+#guide-world *, #guide-world *::before, #guide-world *::after { box-sizing: border-box; }
+#guide-world :focus-visible { outline: 2px solid #e0902b; outline-offset: 2px; }
+#guide-world [hidden] { display: none !important; }
+#guide-world .w-top { padding-block: 28px 18px; }
+#guide-world .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+#guide-world h1 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 5vw, 48px); line-height: 1.05; margin: 0 0 12px; letter-spacing: -0.02em; text-wrap: balance; }
+#guide-world h2 { font-family: var(--display); font-weight: 400; font-size: 24px; line-height: 1.2; margin: 0 0 10px; letter-spacing: -0.01em; text-wrap: balance; }
+#guide-world h3 { font-family: var(--display); font-weight: 400; font-size: 20px; margin: 0 0 6px; }
+#guide-world .lede { max-width: 68ch; color: var(--muted); font-size: 16px; margin: 0; }
+#guide-world p { margin: 0 0 12px; max-width: 72ch; }
+#guide-world a { color: var(--accent); }
+#guide-world .tabs { position: sticky; top: 0; z-index: 20; background: var(--bg); display: flex; gap: 4px; overflow-x: auto; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+#guide-world .tabs button { font: 600 14px var(--body); color: var(--muted); background: none; border: 0; border-bottom: 3px solid transparent; padding: 12px 14px 10px; cursor: pointer; white-space: nowrap; }
+#guide-world .tabs button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+#guide-world .tabs button:hover { color: var(--fg); }
+#guide-world .panel { display: flex; flex-direction: column; gap: 24px; }
+#guide-world .card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px; min-width: 0; }
+#guide-world .scroll { overflow-x: auto; }
+#guide-world .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+#guide-world .grid2 > 
+.stands { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+#guide-world .stands > div { border-top: 3px solid var(--accent); padding-top: 10px; min-width: 0; }
+#guide-world .stands p { color: var(--muted); font-size: 14px; margin: 0; }
+#guide-world .counts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+#guide-world .pill { display: inline-block; font: 600 12px var(--body); padding: 2px 9px; border-radius: 99px; white-space: nowrap; }
+#guide-world .p-Strong { background: var(--okbg); color: var(--ok); }
+#guide-world .p-Good { background: var(--accent-soft); color: var(--accent); }
+#guide-world .p-Conditional { background: var(--warnbg); color: var(--warn); }
+#guide-world .p-Unverified { background: var(--unkbg); color: var(--unk); }
+#guide-world .tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+#guide-world .tools input[type="search"],
+#guide-world .tools select { font: 14px var(--body); color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 8px 10px; min-width: 0; }
+#guide-world .tools input[type="search"] { flex: 1 1 200px; }
+#guide-world .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+#guide-world .chips button { font: 500 13px var(--body); color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 99px; padding: 5px 12px; cursor: pointer; }
+#guide-world .chips button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+#guide-world table { border-collapse: collapse; width: 100%; font-size: 14px; }
+#guide-world th { text-align: left; font: 500 11px var(--mono); letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); padding: 8px 10px; border-bottom: 2px solid var(--line); white-space: nowrap; }
+#guide-world td { padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+#guide-world td.num,
+#guide-world th.num { text-align: right; }
+#guide-world .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+#guide-world .rank { font-family: var(--mono); color: var(--muted); white-space: nowrap; }
+#guide-world .uname { background: none; border: 0; padding: 0; font: 600 14px var(--body); color: var(--fg); text-align: left; cursor: pointer; }
+#guide-world .uname:hover { color: var(--accent); text-decoration: underline; }
+#guide-world .sub { display: block; font-size: 12px; color: var(--muted); }
+#guide-world tr.detail td { background: var(--bg); border-bottom: 1px solid var(--line); }
+#guide-world .detail dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 20px; margin: 0; }
+#guide-world .detail dt { font: 500 11px var(--mono); letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+#guide-world .detail dd { margin: 0; font-size: 13.5px; }
+#guide-world .est { color: var(--muted); font-size: 11px; font-family: var(--mono); }
+#guide-world .rates { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+#guide-world .rates label { display: flex; flex-direction: column; gap: 3px; font: 500 12px var(--mono); color: var(--muted); }
+#guide-world .rates input { font: 14px var(--mono); color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 6px 8px; width: 100%; }
+#guide-world .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted); margin-top: 10px; }
+#guide-world .legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; background: var(--c); }
+#guide-world svg text { font-family: var(--body); }
+#guide-world svg .ax { fill: var(--muted); font: 11px var(--mono); }
+#guide-world svg .lb { fill: var(--fg); font-size: 12.5px; }
+#guide-world svg .vl { fill: var(--fg); font: 11px var(--mono); }
+#guide-world svg .grid { stroke: var(--line); stroke-width: 1; }
+#guide-world .c-y { fill: var(--okbg); }
+#guide-world .t-y { fill: var(--ok); }
+#guide-world .c-c { fill: var(--warnbg); }
+#guide-world .t-c { fill: var(--warn); }
+#guide-world .c-n { fill: var(--badbg); }
+#guide-world .t-n { fill: var(--bad); }
+#guide-world .c-u { fill: var(--unkbg); }
+#guide-world .t-u { fill: var(--unk); }
+#guide-world .note { font-size: 13px; color: var(--muted); }
+#guide-world ul.src { margin: 0; padding-left: 18px; columns: 2 320px; font-size: 13px; }
+#guide-world ul.src li { margin-bottom: 4px; break-inside: avoid; overflow-wrap: anywhere; }
+#guide-world .callouts { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+#guide-world .callouts > div { background: var(--warnbg); color: var(--fg); border-radius: 6px; padding: 12px 14px; font-size: 13.5px; min-width: 0; }
+#guide-world .callouts strong { color: var(--warn); }
+#uni-p-world { background: none; border: 0; padding: 0; }
+#guide-world .tabs { position: static; }
