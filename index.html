@@ -284,6 +284,7 @@
         <div><h3>Canada costs the least</h3><p>Toronto, McGill and UBC are the only top-100 schools where a Canadian citizen pays the domestic rate. Tuition runs about C$7,000 to 15,000 a year. McGill sits at the high end because Ontario residents pay the out-of-province rate.</p></div>
         <div><h3>Germany, Austria, France, Switzerland</h3><p>These have the lowest published tuition outside Canada. Most German public universities charge nothing, Austria is about EUR 1,453, France is EUR 2,895 and ETH is CHF 4,380. Germany and Switzerland are also the hardest to enter with an OSSD alone.</p></div>
         <div><h3>US private and UK cost the most</h3><p>US private tuition is USD 62,000 to 73,000, with a sticker price near USD 90,000 to 102,000 once housing is added. Imperial charges GBP 45,500. Aid can cut the US figure sharply at some schools.</p></div>
+        <div><h3>Language is the other barrier</h3><p>English-speaking countries and Canada need no other language. The Netherlands and Denmark offer many English programmes. Germany, Switzerland, France, Belgium, Sweden and Austria teach most bachelors in the local language, and a little French is not enough for France or EPFL, which expect about B2.</p></div>
         <div><h3>The IB Diploma travels furthest</h3><p>A documented IB route exists in every school group that was checked. AP is strongest in the US, Canada and Singapore. For Germany and Switzerland the IB Diploma changes the picture most.</p></div>
       </div>
 
@@ -297,6 +298,9 @@
         <h2>How the 103 schools line up for an Ontario student</h2>
         <p>The ranking has 103 entries because of ties. Fit describes how well the OSSD, AP and IB are accepted, using what the school or country pages say.</p>
         <div class="counts" id="w-counts"></div>
+      <p style="margin-top:14px">Language of teaching, for a student with English and a little French:</p>
+      <div class="counts" id="w-langcounts"></div>
+      <p class="note" style="margin-top:12px">English means taught in English. English options means many programmes are in English, so pick carefully. Few English options means most bachelors are in the local language. Needs local language means you would need roughly B2 to C1 in that language.</p>
         <p class="note" style="margin-top:12px">Strong means a documented route for IB and for AP or OSSD. Good means documented with some limits. Conditional means extra exams, subjects or language are likely. Unverified means this pass did not research the rules.</p>
       </div>
     </section>
@@ -312,6 +316,12 @@
             <option value="low">Tuition, low to high</option>
             <option value="high">Tuition, high to low</option>
           </select>
+          <label class="note" for="w-lang">Language</label>
+          <select id="w-lang">
+            <option value="all">All schools</option>
+            <option value="options">English or English options</option>
+            <option value="english">Taught in English only</option>
+          </select>
         </div>
         <div class="chips" id="w-chips" style="margin-top:12px" role="group" aria-label="Region filter"></div>
         <p class="note" style="margin:12px 0 0" id="w-count"></p>
@@ -319,7 +329,7 @@
       <div class="card" style="padding:8px 8px 4px">
         <div class="scroll">
           <table id="w-tbl" style="min-width:640px">
-            <thead><tr><th>Rank</th><th>University</th><th class="num">Tuition per year</th><th class="num">About, in CAD</th><th>Fit</th></tr></thead>
+            <thead><tr><th>Rank</th><th>University</th><th class="num">Tuition per year</th><th class="num">About, in CAD</th><th>Fit</th><th>Language</th></tr></thead>
             <tbody id="w-tbody"></tbody>
           </table>
         </div>
@@ -400,7 +410,8 @@
         <p>The list is the top 100 of the Times Higher Education World University Rankings 2027, published on 30 September 2026. Ties give 103 entries. Tuition is the first-year bachelor fee for 2026-27 where a figure was published, and a category estimate where it was not.</p>
         <p>Each row carries a label. A published figure comes from a school page or a source that cites one. An estimate is a range for the school's country or tier. Not found means no usable figure turned up. Canadian citizens count as international students everywhere except Canada, so no home-student rates apply abroad.</p>
         <p>Fit ratings are a reading of admission pages and counselling guides, not an official classification. Seven country groups (mainland China, Japan, South Korea, France, Denmark, Sweden, Belgium and Austria) were not researched for IB and AP rules. They show as Unverified. Check those schools' own pages if you shortlist any.</p>
-        <p>Tuition varies by programme, and medicine, dentistry, engineering and business often cost more. Scholarships, need-based aid, housing, food, insurance, visas and flights are not included except where a note says so.</p>
+        <p>Language ratings assume a student with English and a little French. They describe the usual language of bachelor teaching at the school or in the country, from published guidance and general knowledge, and were not checked programme by programme. English-taught options often exist at a school rated as needing the local language, so check the exact programme.</p>
+      <p>Tuition varies by programme, and medicine, dentistry, engineering and business often cost more. Scholarships, need-based aid, housing, food, insurance, visas and flights are not included except where a note says so.</p>
       </div>
       <div class="card">
         <h2>Sources</h2>

@@ -116,6 +116,41 @@
   });
 
   var CCNAME = { US: 'United States', UK: 'United Kingdom', CA: 'Canada', DE: 'Germany', CH: 'Switzerland', NL: 'Netherlands', FR: 'France', BE: 'Belgium', SE: 'Sweden', DK: 'Denmark', AT: 'Austria', CN: 'China', HK: 'Hong Kong', SG: 'Singapore', JP: 'Japan', KR: 'South Korea', AU: 'Australia' };
+  /* ---------- language of teaching (for a student with English and some French) ---------- */
+  var LANG_LVL = { Clear: 'English', Mostly: 'English options', Limited: 'Few English options', Barrier: 'Needs local language' };
+  var LANG_C = {
+    US: ['Clear', 'Taught in English.'],
+    UK: ['Clear', 'Taught in English.'],
+    AU: ['Clear', 'Taught in English.'],
+    CA: ['Clear', 'Taught in English. French is a bonus in Quebec but is not needed at McGill.'],
+    SG: ['Clear', 'Taught in English.'],
+    HK: ['Clear', 'Taught in English. Cantonese or Mandarin helps outside class.'],
+    NL: ['Mostly', 'Many bachelor programmes are taught fully in English. Some are in Dutch, so pick an English-taught one.'],
+    DK: ['Mostly', 'Selected bachelor programmes are taught in English. Most others are in Danish.'],
+    CN: ['Limited', 'Most bachelor programmes are taught in Mandarin. A smaller set of international programmes run in English, so check each school.'],
+    JP: ['Limited', 'Most bachelor programmes are taught in Japanese. A few English-track undergraduate programmes exist and are very competitive.'],
+    KR: ['Limited', 'Many bachelor programmes are taught in Korean. Some schools have English-taught tracks.'],
+    DE: ['Barrier', 'Most bachelor programmes are taught in German and need about C1 German. A few English-taught bachelors exist. Basic French does not help.'],
+    CH: ['Barrier', 'Bachelor programmes are taught in German or French and need strong language skills. A little French is not enough.'],
+    FR: ['Barrier', 'Bachelor programmes are mostly taught in French and need about B2 or higher. A little French is not enough, although a few English options exist.'],
+    BE: ['Barrier', 'Most bachelor programmes are taught in Dutch. A few are in English.'],
+    SE: ['Barrier', 'Bachelor programmes are taught in Swedish. English teaching is mainly at master’s level.'],
+    AT: ['Barrier', 'Most bachelor programmes are taught in German. A few are in English.']
+  };
+  var LANG_U = {
+    'École Polytechnique Fédérale de Lausanne': ['Barrier', 'First-year bachelor teaching is in French and needs about B2 French. A little French is not enough.'],
+    'ETH Zurich': ['Barrier', 'Bachelor teaching is in German and needs about C1 German. French does not help here.'],
+    'Technical University of Munich': ['Limited', 'Most bachelor programmes are in German with C1 needed. A few are in English, so check the programme.'],
+    'McGill University': ['Clear', 'Taught in English. Montréal life is bilingual, so your French will be useful but is not required.'],
+    'Aarhus University': ['Mostly', 'Many bachelor programmes are taught in English. Check that your programme is one of them.'],
+    'University of Copenhagen': ['Limited', 'Only some bachelor programmes are taught in English. Most are in Danish.'],
+    'Wageningen University & Research': ['Mostly', 'Most bachelor programmes are in English at Wageningen.'],
+    'Korea Advanced Institute of Science and Technology': ['Mostly', 'Courses are taught in English.'],
+    'Université Paris Sciences et Lettres': ['Barrier', 'Mostly taught in French and needs strong French. A few English options exist.'],
+    'Institut Polytechnique de Paris': ['Barrier', 'Bachelor teaching is mainly in French. English is stronger at master’s level.']
+  };
+  function langOf(u) { var l = LANG_U[u.name] || LANG_C[u.cc]; return { lvl: l[0], text: l[1] }; }
+
   var REG = {
     'All': null, 'Canada': ['CA'], 'United States': ['US'], 'United Kingdom': ['UK'],
     'Europe': ['DE', 'CH', 'NL', 'FR', 'BE', 'SE', 'DK', 'AT'], 'Asia': ['CN', 'HK', 'SG', 'JP', 'KR'], 'Australia': ['AU']
@@ -259,7 +294,7 @@
   });
 
   /* ---------- universities table ---------- */
-  var state = { region: 'All', q: '', sort: 'rank', open: {} };
+  var state = { region: 'All', q: '', sort: 'rank', lang: 'all', open: {} };
 
   function buildChips() {
     var el = $('chips');
@@ -277,6 +312,9 @@
     var allow = REG[state.region];
     var rows = U.map(function (u, i) { return { u: u, i: i }; }).filter(function (r) {
       if (allow && allow.indexOf(r.u.cc) < 0) return false;
+      var lv = langOf(r.u).lvl;
+      if (state.lang === 'english' && lv !== 'Clear') return false;
+      if (state.lang === 'options' && lv !== 'Clear' && lv !== 'Mostly') return false;
       if (q && (r.u.name + ' ' + CCNAME[r.u.cc]).toLowerCase().indexOf(q) < 0) return false;
       return true;
     });
@@ -289,22 +327,24 @@
       return state.sort === 'low' ? ma - mb : mb - ma;
     });
     var html = rows.map(function (r) {
-      var u = r.u, c = cad(u), a = ALIGN[u.cc], open = !!state.open[r.i];
+      var u = r.u, c = cad(u), a = ALIGN[u.cc], lg = langOf(u), open = !!state.open[r.i];
       var cl = confLabel(u.conf);
       var h = '<tr><td class="rank">' + esc(u.rank) + '</td>' +
         '<td><button type="button" class="uname" data-i="' + r.i + '" aria-expanded="' + open + '">' + esc(u.name) + '</button><span class="sub">' + esc(CCNAME[u.cc]) + '</span></td>' +
         '<td class="num mono">' + esc(local(u)) + (cl ? '<span class="sub est" style="text-align:right">' + cl + '</span>' : '') + '</td>' +
         '<td class="num mono">' + (c ? rcad(c[0], c[1]) : '—') + '</td>' +
-        '<td><span class="pill p-' + a.lvl + '">' + a.lvl + '</span></td></tr>';
+        '<td><span class="pill p-' + a.lvl + '">' + a.lvl + '</span></td>' +
+        '<td><span class="pill p-L' + lg.lvl + '">' + LANG_LVL[lg.lvl] + '</span></td></tr>';
       if (open) {
-        h += '<tr class="detail"><td></td><td colspan="4"><dl>' +
+        h += '<tr class="detail"><td></td><td colspan="5"><dl>' +
+          '<div><dt>Language of teaching</dt><dd>' + esc(lg.text) + '</dd></div>' +
           '<div><dt>School notes</dt><dd>' + esc(u.note || 'No school-specific notes.') + '</dd></div>' +
           '<div><dt>Admission</dt><dd>' + esc(a.adm) + '</dd></div>' +
           '<div><dt>Credit</dt><dd>' + esc(a.cr) + '</dd></div></dl></td></tr>';
       }
       return h;
     }).join('');
-    $('tbody').innerHTML = html || '<tr><td colspan="5">No universities match.</td></tr>';
+    $('tbody').innerHTML = html || '<tr><td colspan="6">No universities match.</td></tr>';
     $('count').textContent = rows.length + ' of ' + U.length + ' universities shown';
   }
 
@@ -315,6 +355,7 @@
     renderTable();
   });
   $('q').addEventListener('input', function (e) { state.q = e.target.value; renderTable(); });
+  $('lang').addEventListener('change', function (e) { state.lang = e.target.value; renderTable(); });
   $('sort').addEventListener('change', function (e) { state.sort = e.target.value; renderTable(); });
 
   /* ---------- group stats, chart, cost table ---------- */
@@ -423,6 +464,11 @@
     }).join('');
     var c = { Strong: 0, Good: 0, Conditional: 0, Unverified: 0 };
     U.forEach(function (u) { c[ALIGN[u.cc].lvl]++; });
+    var lc = { Clear: 0, Mostly: 0, Limited: 0, Barrier: 0 };
+    U.forEach(function (u) { lc[langOf(u).lvl]++; });
+    $('langcounts').innerHTML = Object.keys(lc).map(function (k) {
+      return '<span class="pill p-L' + k + '" style="font-size:13px;padding:4px 12px">' + LANG_LVL[k] + ' ' + lc[k] + '</span>';
+    }).join('');
     $('counts').innerHTML = Object.keys(c).map(function (k) {
       return '<span class="pill p-' + k + '" style="font-size:13px;padding:4px 12px">' + k + ' ' + c[k] + '</span>';
     }).join('');

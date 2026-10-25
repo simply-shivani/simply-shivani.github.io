@@ -85,3 +85,7 @@
 #guide-world .callouts strong { color: var(--warn); }
 #uni-p-world { background: none; border: 0; padding: 0; }
 #guide-world .tabs { position: static; }
+#guide-world .p-LClear { background: var(--okbg); color: var(--ok); }
+#guide-world .p-LMostly { background: var(--accent-soft); color: var(--accent); }
+#guide-world .p-LLimited { background: var(--warnbg); color: var(--warn); }
+#guide-world .p-LBarrier { background: var(--badbg); color: var(--bad); }
