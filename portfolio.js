@@ -39,13 +39,15 @@
     selectSection(tabs[next].dataset.section, true).focus();
   });
 
-  document.querySelectorAll('a[href="#career"]').forEach(link => {
-    link.addEventListener("click", event => {
-      event.preventDefault();
-      selectSection("career", true);
-      document.getElementById("main-content").scrollIntoView({ block: "start" });
-      document.getElementById("panel-career").focus({ preventScroll: true });
-    });
+  // In-page links to a section (e.g. #career, #pathways), including ones rendered later by the guides.
+  document.addEventListener("click", event => {
+    const link = event.target.closest("a[href^='#']");
+    const section = link && link.getAttribute("href").slice(1);
+    if (!section || !tabs.some(tab => tab.dataset.section === section)) return;
+    event.preventDefault();
+    const tab = selectSection(section, true);
+    document.getElementById("main-content").scrollIntoView({ block: "start" });
+    document.getElementById(tab.getAttribute("aria-controls")).focus({ preventScroll: true });
   });
 
   window.addEventListener("hashchange", () => selectSection(location.hash.slice(1)));

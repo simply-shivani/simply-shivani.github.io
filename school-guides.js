@@ -8,31 +8,31 @@
   const FRASER = "https://www.fraserinstitute.org/sites/default/files/2025-11/ontario-secondary-school-rankings-2025_0.pdf";
 
   const PDSB = [
-    "John Fraser SS|Mississauga|29|8.8|johnfraser|AP",
+    "John Fraser SS|Mississauga|29|8.8|johnfraser|AP||A",
     "The Woodlands SS|Mississauga|52|8.3|thewoodlandsss|Enhanced Learning Program|A;H;T|A;H",
     "Streetsville SS|Mississauga|95|7.9|streetsville||S|S|FI",
     "Lorne Park SS|Mississauga|130|7.6|lorneparkss||S||EF",
-    "Mayfield SS|Caledon|178|7.2|mayfield|Arts",
-    "North Park SS|Brampton|178|7.2|northpark|International Business & Technology",
+    "Mayfield SS|Caledon|178|7.2|mayfield|Arts||AV",
+    "North Park SS|Brampton|178|7.2|northpark|International Business & Technology||B",
     "Port Credit SS|Mississauga|178|7.2|portcredit|Sci Tech;Strings",
     "Cawthra Park SS|Mississauga|201|7.1|cawthrapark|Arts",
     "Turner Fenton SS|Brampton|201|7.1|turnerfenton|IB",
     "Brampton Centennial SS|Brampton|220|7.0|bramptoncentennial||H;C;B;I||FI|STEAM",
-    "Glenforest SS|Mississauga|254|6.8|glenforest|IB",
-    "Harold M. Brathwaite SS|Brampton|254|6.8|haroldmbrathwaite|IB",
+    "Glenforest SS|Mississauga|254|6.8|glenforest|IB||Design Technology",
+    "Harold M. Brathwaite SS|Brampton|254|6.8|haroldmbrathwaite|IB||B;J",
     "Chinguacousy SS|Brampton|275|6.7|chinguacousy|Sci Tech|M;A;H;AV|M;A",
     "Mississauga SS|Mississauga|275|6.7|mississauga|AP;Peel Region High Performers Program|H|H",
     "Humberview SS|Bolton|294|6.6|humberview||H;M;T|H|FI;EF|Vocational One;Learning Hubs 6 & 36",
     "Castlebrooke SS|Brampton|338|6.3|castlebrooke||A;S;I|S;I",
     "Erindale SS|Mississauga|349|6.2|erindale|IB|C;J|C",
     "Sandalwood Heights SS|Brampton|349|6.2|sandalwoodheights|Localized Advanced Placement|B;H|B;H",
-    "Meadowvale SS|Mississauga|367|6.1|meadowvale|International Business & Technology",
+    "Meadowvale SS|Mississauga|367|6.1|meadowvale|International Business & Technology||I",
     "Louise Arbour SS|Brampton|390|6.0|louisearbour",
-    "Stephen Lewis SS|Mississauga|390|6.0",
+    "Stephen Lewis SS|Mississauga|390|6.0||||N",
     "Central Peel SS|Brampton|422|5.8|centralpeel|AP;Strings",
     "Heart Lake SS|Brampton|453|5.6|heartlake||A;I;H",
     "Fletcher's Meadow SS|Brampton|478|5.5|fletchersmeadow|AP|A;H;S;I|||Duke of Edinburgh Award",
-    "Rick Hansen SS|Mississauga|478|5.5|rickhansen|AP|M;C;HT",
+    "Rick Hansen SS|Mississauga|478|5.5|rickhansen|AP|M;C;HT|HT;M",
     "Applewood Heights SS|Mississauga|497|5.4|applewoodheights||S|Sports Leadership|FI|Co-op & Dual Credits;International School",
     "Jean Augustine SS|Brampton|497|5.4|jeanaugustine|AP",
     "Peel Virtual SS|Brampton|497|5.4|pvss||||Virtual (online) school",
@@ -112,6 +112,8 @@
     "Father Michael Goetz CSS|Mississauga|654|4.0|goetz|Regional Bakery School Program|A;I||||330 Central Parkway West",
     "St. Oscar Romero CSS||||romer"
   ];
+  // Shared with pathways.js (Pathways & Schools tab) so ranks and programs stay in one place.
+  window.PEEL_SCHOOLS = { X, PDSB, DP };
   const DP_EV = [
     "2026-10-08|St. Joseph CSS|6:00 p.m.|Advanced Placement",
     "2026-10-22|St. Marguerite d'Youville CSS|5:30 p.m.|Regional STEM Program presentation at 7:00 p.m.",
